@@ -1,0 +1,20 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+  width: 30%;
+  margin-top: 1%;
+  margin: 0 auto;
+}
+
+ul img {
+  width: 40%;
+}
+
+li {
+  background-color: #E0DED5;
+  border: 2px solid #EEEEED;
+  text-align: center;
+  padding-top: 5%;
+  margin-top: 5%;
+  /*display: inline;*/
+}

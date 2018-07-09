@@ -1,0 +1,27 @@
+.header {
+  text-align: center;
+  color: #E85A50;
+}
+
+img {
+  width: 60px;
+}
+
+h1 {
+  font-size: 3rem;
+  display: inline-block;
+}
+
+p {
+  color: #E88073;
+}
+
+h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+h1:hover, span:hover {
+  color: #D8C3A4;
+  cursor: pointer;
+}
