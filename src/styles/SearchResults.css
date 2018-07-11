@@ -16,5 +16,14 @@ li {
   text-align: center;
   padding-top: 5%;
   margin-top: 5%;
-  /*display: inline;*/
+}
+
+@media only screen and (max-width: 768px) {
+  ul {
+    width: 75%;
+  }
+
+  ul img {
+    width: 50%;
+  }
 }

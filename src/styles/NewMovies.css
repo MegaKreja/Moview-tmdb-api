@@ -7,13 +7,24 @@
 .movie img {
   width: 20%;
   margin: 2.5%;
+  transition: 0.5s;
 }
 
 .movie img:hover {
   opacity: 0.7;
   cursor: pointer;
-  border: 5px solid #E88073;
   box-sizing: border-box;
   border-radius: 10%;
-  transition: 0.5s
+  transition: 0.5s;
+}
+
+@media only screen and (max-width: 768px) {
+  .movie img {
+    width: 60%;
+    display: block;
+    margin: auto;
+    padding-bottom: 5%;
+    transition: 0.5s;
+    text-align: center;
+  }
 }
