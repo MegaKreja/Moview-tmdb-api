@@ -1,4 +1,5 @@
 ul {
+  text-decoration: none;
   list-style-type: none;
   padding: 0;
   width: 30%;
@@ -16,6 +17,11 @@ li {
   text-align: center;
   padding-top: 5%;
   margin-top: 5%;
+}
+
+a {
+  text-decoration: none;
+  color: #999791;
 }
 
 @media only screen and (max-width: 768px) {

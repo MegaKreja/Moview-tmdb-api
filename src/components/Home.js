@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import '../styles/App.css';
+import '../styles/Home.css';
 import Header from "./Header";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 import NewMovies from "./NewMovies";
 import axios from "axios";
 
-class App extends Component {
+class Home extends Component {
   
   state = {
     newMovies: [],
@@ -42,7 +42,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="home">
         <Header />
         <Search searchMovie={this.searchMovie}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
@@ -53,4 +53,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;

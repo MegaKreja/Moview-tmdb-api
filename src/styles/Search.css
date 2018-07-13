@@ -13,9 +13,9 @@ input {
 }
 
 input:focus {
-  background-color: #EAE8DC;
+  background-color: #fff;
   border-radius: 0;
-  border-color: #E85A50;
+  border-color: #E0DED5;
   outline-width: 0;
   transition: 0.2s;
 }

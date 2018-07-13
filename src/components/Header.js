@@ -1,5 +1,6 @@
 import React from "react";
-import "../styles/Header.css"
+import { Link } from "react-router-dom";
+import "../styles/Header.css";
 import Icon from "../styles/images/film-icon.png";
 
 const header = (props) => {
@@ -7,8 +8,10 @@ const header = (props) => {
     <div className="header">
       <img src={Icon} alt="icon images"/>
       <br/>
-      <h1>MoView</h1>
-      <p className="info">Provided by <span className="tmdbLink">TMDB API</span></p>
+      <Link to="/">
+        <h1>MoView</h1>
+      </Link>
+      <p className="info">Provided by <span className="tmdbLink">TMDB</span></p>
     </div>
   );
 }

@@ -1,13 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/NewMovies.css";
 
 const newMovies = (props) => {
   const newMovies = props.newMovies.map((movie, i) => {
-    let link = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
+    let imageLink = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
+    let link = "/movie/" + movie.id;
     return (
-      <div className="movie" key={i}>
-        <img src={link} alt="movie poster"/>
-      </div>
+      <Link to={link} key={i}>
+        <div className="movie">
+          <img src={imageLink} alt="movie poster"/>
+        </div>
+      </Link>
     );
   });
 

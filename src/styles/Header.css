@@ -9,6 +9,7 @@ img {
 
 h1 {
   font-size: 3rem;
+  color: #E85A50;
   display: inline-block;
 }
 
@@ -22,6 +23,6 @@ h1, p {
 }
 
 h1:hover, span:hover {
-  color: #D8C3A4;
+  color: #DBA09D;
   cursor: pointer;
 }
