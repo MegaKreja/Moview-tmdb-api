@@ -5,7 +5,6 @@ import Star from "../styles/images/star.png";
 const MovieInfo = (props) => {
   console.log(props);
   let imageLink = "https://image.tmdb.org/t/p/w300" + props.movie.poster_path;
-  console.log(props.movie.genres[1].name);
   return (
     <div className="movieInfo">
       <div className="top">

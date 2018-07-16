@@ -42,8 +42,11 @@ class Movie extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({searchResults: []})
-    this.getMovie();
+    if(nextProps.movie !== this.state.movie) {
+      this.setState({searchResults: []});
+      this.setState({search: ""});
+      this.getMovie();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -56,7 +59,7 @@ class Movie extends Component {
         <Header />
         <Search searchMovie={this.searchMovie}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
-        {Object.keys(this.state.movie).length && <MovieInfo movie={this.state.movie}/>}
+        {Object.keys(this.state.movie).length ? <MovieInfo movie={this.state.movie}/> : ""}
       </div>
     );
   }
