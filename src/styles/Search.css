@@ -13,6 +13,7 @@ input {
 }
 
 input:focus {
+  color: #8E8D89;
   background-color: #fff;
   border-radius: 0;
   border-color: #E0DED5;

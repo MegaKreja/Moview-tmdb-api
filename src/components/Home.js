@@ -46,7 +46,7 @@ class Home extends Component {
         <Header />
         <Search searchMovie={this.searchMovie}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
-        <h2>New Movie Releases for {(new Date().getDate())}/{(new Date().getMonth())}/{(new Date().getFullYear())}</h2>
+        <h2>New Movie Releases for {(new Date().getDate())}.{(new Date().getMonth())}.{(new Date().getFullYear())}</h2>
         <NewMovies newMovies={this.state.newMovies}/>
       </div>
     );

@@ -9,7 +9,6 @@ import axios from "axios";
 class Movie extends Component {
   
   state = {
-    id: this.props.match.params.id,
     movie: {},
     search: "",
     searchResults: []
@@ -27,11 +26,11 @@ class Movie extends Component {
     }
   }
 
-  getMovie = (movieId) => {
+  getMovie = () => {
     const key = "18195450fabc62a70a30dbc0d43118e1";
-    const id = movieId;
-    // console.log(this.props.match.params.id);
-    axios.get("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + key + "&append_to_response=credits")
+    const id = window.location.pathname.substring(7);
+    console.log(this.props);
+    axios.get("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + key + "&append_to_response=credits,videos,similar")
       .then(res => {
         const movie = res.data;
         this.setState({movie: movie})
@@ -39,20 +38,12 @@ class Movie extends Component {
   }
 
   componentDidMount() {
-    const key = "18195450fabc62a70a30dbc0d43118e1";
-    const id = this.props.match.params.id;
-    // console.log(this.props.match.params.id);
-    axios.get("https://api.themoviedb.org/3/movie/" + id + "?api_key=" + key + "&append_to_response=credits")
-      .then(res => {
-        const movie = res.data;
-        this.setState({movie: movie})
-      });
+    this.getMovie();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({searchResults: []})
-    this.setState({id: nextProps.match.params.id});
-    this.getMovie(nextProps.match.params.id);
+    this.getMovie();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -65,7 +56,7 @@ class Movie extends Component {
         <Header />
         <Search searchMovie={this.searchMovie}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
-        <MovieInfo movie={this.state.movie}/>
+        {Object.keys(this.state.movie).length && <MovieInfo movie={this.state.movie}/>}
       </div>
     );
   }
