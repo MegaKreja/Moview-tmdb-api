@@ -57,7 +57,7 @@ class Movie extends Component {
     return (
       <div className="moviePage">
         <Header />
-        <Search searchMovie={this.searchMovie}/>
+        <Search searchMovie={this.searchMovie} search={this.state.search}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
         {Object.keys(this.state.movie).length ? <MovieInfo movie={this.state.movie}/> : ""}
       </div>
