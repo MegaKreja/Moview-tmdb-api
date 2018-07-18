@@ -13,11 +13,11 @@ img {
   display: inline-block;
 }
 
-p {
+.header p {
   color: #E88073;
 }
 
-h1, p {
+.header h1, .header p {
   margin: 0;
   padding: 0;
 }

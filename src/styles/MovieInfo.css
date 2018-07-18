@@ -2,6 +2,7 @@
   margin-top: 3%;
   background-color: #E0DED5;
   color: #8E8D89;
+  border-radius: 3%;
 }
 
 .top {
@@ -50,4 +51,25 @@
 .right .description .genres h4 {
   display: inline-block;
   margin: 1%;
+}
+
+.cast {
+  margin-top: 4%;
+  /*margin: 0 auto;*/
+  color: #8E8D89;
+  text-align: center;
+}
+
+.cast .actor {
+  display: inline-block;
+  width: 33%;
+}
+
+.cast img {
+  width: 40%;
+}
+
+.trailer {
+  margin-top: 4%;
+  text-align: center;
 }
