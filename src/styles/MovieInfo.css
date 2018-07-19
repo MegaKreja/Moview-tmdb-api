@@ -60,11 +60,16 @@
 
 .cast .actor, .similar .similarMovie {
   display: inline-block;
-  width: 33%;
+  width: 20%;
 }
 
 .cast img, .similar img {
   width: 40%;
+  vertical-align: top;
+}
+
+.cast p, .similar p {
+  white-space:nowrap
 }
 
 .similar {
@@ -77,8 +82,8 @@
 }
 
 .trailer .video {
-  width: 848px;
-  height: 480px;
+  width: 480px;
+  height: 240px;
   border: 0;
 }
 

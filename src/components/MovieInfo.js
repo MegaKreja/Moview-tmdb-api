@@ -30,7 +30,7 @@ const MovieInfo = (props) => {
     } 
   }
 
-  const shortenCast = props.movie.credits.cast.slice(0, 9);
+  const shortenCast = props.movie.credits.cast.slice(0, 10);
   const cast = shortenCast.map((actor, i) => {
     let actorImg = "https://image.tmdb.org/t/p/w300" + actor.profile_path;
     return (
@@ -41,7 +41,7 @@ const MovieInfo = (props) => {
     );
   });
 
-  const similarArr = props.movie.similar.results.slice(0, 6);
+  const similarArr = props.movie.similar.results.slice(0, 5);
   const similarMovies = similarArr.map((movie, i) => {
     let movieImg = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
     let link = "/movie/" + movie.id;
