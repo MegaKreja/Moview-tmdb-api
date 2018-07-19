@@ -1,15 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/MovieInfo.css";
 import Star from "../styles/images/star.png";
+import Placeholder from "../styles/images/placeholder.png";
 
 const MovieInfo = (props) => {
   console.log(props);
   let posterImg = "https://image.tmdb.org/t/p/w300" + props.movie.poster_path;
+
   const genres = props.movie.genres.map((genre, i) => {
     return (
       <h4 key={i}>{genre.name}</h4>
     );
   });
+
   let director = null;
   for (let i = 0; i < props.movie.credits.crew.length; i++) { 
     if (props.movie.credits.crew[i].job === "Director") { 
@@ -17,23 +21,37 @@ const MovieInfo = (props) => {
       break;
     } 
   }
+
   let videoLink = "";
   for (let i = 0; i < props.movie.videos.results.length; i++) { 
     if (props.movie.videos.results[i].type === "Trailer") { 
-      videoLink = "http://www.youtube.com/embed/" + props.movie.videos.results[i].key;
+      videoLink = "https://www.youtube.com/embed/" + props.movie.videos.results[i].key;
       break;
     } 
   }
-  console.log(videoLink);
 
   const shortenCast = props.movie.credits.cast.slice(0, 9);
   const cast = shortenCast.map((actor, i) => {
     let actorImg = "https://image.tmdb.org/t/p/w300" + actor.profile_path;
     return (
       <div className="actor" key={i}>
-        <img src={actorImg} alt="actor img"/>
+        <img src={actor.profile_path === null ? Placeholder : actorImg} alt="actor img"/>
         <p>{actor.name}</p>
       </div>
+    );
+  });
+
+  const similarArr = props.movie.similar.results.slice(0, 6);
+  const similarMovies = similarArr.map((movie, i) => {
+    let movieImg = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
+    let link = "/movie/" + movie.id;
+    return (
+      <Link to={link} key={i}>
+        <div className="similarMovie">
+          <img src={movieImg} alt="movie img"/>
+          <p>{movie.title} ({movie.release_date.slice(0, 4)})</p>
+        </div>
+      </Link>
     );
   });
 
@@ -44,7 +62,6 @@ const MovieInfo = (props) => {
           <div className="poster">
             <img src={posterImg} alt="movie poster"/>
           </div>
-          
         </div>
         
         <div className="right">
@@ -73,15 +90,15 @@ const MovieInfo = (props) => {
       {videoLink !== "" && 
       <div className="trailer">
         <h1>Trailer</h1>
-        <iframe className="video" width="854" height="450" src={videoLink} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe title="trailer" className="video" src={videoLink} allow="encrypted-media"></iframe>
       </div>}
 
-      <div className="similiar">
-        
+      <div className="similar">
+        <h1>Similar movies</h1>
+        {similarMovies}
       </div>    
     </div>
   );
-  // srediti error ako je bas nepoznat film za rezisera
 }
 
 export default MovieInfo;

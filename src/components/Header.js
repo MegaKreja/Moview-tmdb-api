@@ -11,7 +11,7 @@ const header = (props) => {
       <Link to="/">
         <h1>MoView</h1>
       </Link>
-      <p className="info">Provided by <span className="tmdbLink">TMDB</span></p>
+      <p className="info">Provided by <a href="https://www.themoviedb.org/?language=en" rel="noopener noreferrer" target="_blank"><span className="tmdbLink">TMDB</span></a></p>
     </div>
   );
 }
