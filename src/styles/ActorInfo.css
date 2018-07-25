@@ -1,0 +1,25 @@
+.actorInfo {
+  margin-top: 3%;
+  background-color: #E0DED5;
+  color: #8E8D89;
+}
+
+.profile img {
+  width: 20%;
+  display: block;
+  margin:auto;
+  border-radius: 3%;
+}
+
+.biography {
+  text-align: center;
+}
+
+.biography h1 {
+  color: #E88073;
+}
+
+.filmography {
+  text-align: center;
+  margin-top: 3%;
+}

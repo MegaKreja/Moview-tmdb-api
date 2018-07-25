@@ -33,11 +33,14 @@ const MovieInfo = (props) => {
   const shortenCast = props.movie.credits.cast.slice(0, 10);
   const cast = shortenCast.map((actor, i) => {
     let actorImg = "https://image.tmdb.org/t/p/w300" + actor.profile_path;
+    let link = "/actor/" + actor.id;
     return (
-      <div className="actor" key={i}>
-        <img src={actor.profile_path === null ? Placeholder : actorImg} alt="actor img"/>
-        <p>{actor.name}</p>
-      </div>
+      <Link to={link} key={i}>
+        <div className="actor">
+          <img src={actor.profile_path === null ? Placeholder : actorImg} alt="actor img"/>
+          <p>{actor.name}</p>
+        </div>
+      </Link>
     );
   });
 
@@ -49,7 +52,6 @@ const MovieInfo = (props) => {
       <Link to={link} key={i}>
         <div className="similarMovie">
           <img src={movieImg} alt="movie img"/>
-          <p>{movie.title} ({movie.release_date.slice(0, 4)})</p>
         </div>
       </Link>
     );
