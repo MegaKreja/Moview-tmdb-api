@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/MovieInfo.css";
 import Star from "../styles/images/star.png";
 import Placeholder from "../styles/images/placeholder.png";
+import MoviePlaceholder from "../styles/images/moviePlaceholder.png";
 
 const MovieInfo = (props) => {
   console.log(props);
@@ -44,14 +45,14 @@ const MovieInfo = (props) => {
     );
   });
 
-  const similarArr = props.movie.similar.results.slice(0, 5);
+  const similarArr = props.movie.similar.results.slice(0, 10);
   const similarMovies = similarArr.map((movie, i) => {
     let movieImg = "https://image.tmdb.org/t/p/w300" + movie.poster_path;
     let link = "/movie/" + movie.id;
     return (
       <Link to={link} key={i}>
         <div className="similarMovie">
-          <img src={movieImg} alt="movie img"/>
+          <img src={movie.poster_path !== null ? movieImg : MoviePlaceholder} alt="movie img"/>
         </div>
       </Link>
     );
@@ -62,7 +63,7 @@ const MovieInfo = (props) => {
       <div className="top">
         <div className="left">
           <div className="poster">
-            <img src={posterImg} alt="movie poster"/>
+            <img src={props.movie.poster_path !== null ? posterImg : MoviePlaceholder} alt="movie poster"/>
           </div>
         </div>
         

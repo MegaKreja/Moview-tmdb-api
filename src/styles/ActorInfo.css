@@ -15,11 +15,30 @@
   text-align: center;
 }
 
-.biography h1 {
+.biography .name {
   color: #E88073;
 }
 
 .filmography {
-  text-align: center;
-  margin-top: 3%;
+  padding-top: 3%;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.actorMovie {
+  border: 2px solid #EEEEED;
+  margin-bottom: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actorMovie img {
+  width: 10%;
+}
+
+.actorMovie h3 {
+  display: inline-block;
+  padding-left: 10%;
+  margin: 0;
 }

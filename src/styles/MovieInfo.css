@@ -58,14 +58,24 @@
   text-align: center;
 }
 
-.cast .actor, .similar .similarMovie {
+.cast .actor {
   display: inline-block;
   width: 20%;
 }
 
-.cast img, .similar img {
+.similar .similarMovie {
+  display: inline-block;
+  width: 20%;
+}
+
+.cast img {
   width: 50%;
   vertical-align: top;
+}
+
+.similar img {
+  width: 50%;
+  padding-bottom: 5%;
 }
 
 .cast img:hover, .similar img:hover {
@@ -109,6 +119,11 @@
     width: 80%;
     display: block;
     margin: 0 auto;
+  }
+
+  .right .rating img {
+    width: 8%;
+    vertical-align: bottom;
   }
 
   .cast .actor, .similar .similarMovie {
