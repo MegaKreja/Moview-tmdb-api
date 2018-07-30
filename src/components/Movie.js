@@ -4,6 +4,7 @@ import Header from "./Header";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 import MovieInfo from "./MovieInfo";
+import Loader from "./Loader";
 import axios from "axios";
 
 class Movie extends Component {
@@ -59,7 +60,7 @@ class Movie extends Component {
         <Header />
         <Search searchMovie={this.searchMovie} search={this.state.search}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
-        {Object.keys(this.state.movie).length ? <MovieInfo movie={this.state.movie}/> : ""}
+        {Object.keys(this.state.movie).length ? <MovieInfo movie={this.state.movie}/> : <Loader />}
       </div>
     );
   }

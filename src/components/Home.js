@@ -4,6 +4,7 @@ import Header from "./Header";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 import NewMovies from "./NewMovies";
+import Loader from "./Loader";
 import axios from "axios";
 
 class Home extends Component {
@@ -47,7 +48,7 @@ class Home extends Component {
         <Search searchMovie={this.searchMovie}/>
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
         <h2>New Movie Releases for {(new Date().getDate())}.{(new Date().getMonth())}.{(new Date().getFullYear())}</h2>
-        <NewMovies newMovies={this.state.newMovies}/>
+        {this.state.newMovies ? <NewMovies newMovies={this.state.newMovies} /> : <Loader />}
       </div>
     );
   }

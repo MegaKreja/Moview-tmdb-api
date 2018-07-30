@@ -16,7 +16,7 @@ const ActorInfo = (props) => {
       <Link to={link} key={i}>
         <div className="actorMovie">
           <img src={movie.poster_path !== null ? movieImg : MoviePlaceholder} alt="movie img"/>
-          <h3>{movie.title} ({movie.release_date.slice(0, 4)}) as {movie.character}</h3>
+          <h3>{movie.title} ({movie.release_date.slice(0, 4)}) {movie.character ? "as " + movie.character : ""}</h3>
         </div>
       </Link>
     );

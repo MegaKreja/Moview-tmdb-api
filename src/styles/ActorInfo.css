@@ -29,8 +29,13 @@
   border: 2px solid #EEEEED;
   margin-bottom: 3%;
   display: flex;
-  justify-content: center;
+  /*justify-content: center;*/
   align-items: center;
+}
+
+.actorMovie:hover {
+  border: 2px solid #8E8D89;
+  transition: 0.2s;
 }
 
 .actorMovie img {

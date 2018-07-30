@@ -3,6 +3,7 @@ import Header from "./Header";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 import ActorInfo from "./ActorInfo";
+import Loader from "./Loader";
 import axios from "axios";
 import "../styles/Actor.css";
 
@@ -58,7 +59,7 @@ class Actor extends Component {
         <Header />
         <Search searchMovie={this.searchMovie} search={this.state.search} />
         {this.state.search.length > 0 && <SearchResults searchResults={this.state.searchResults} />}
-        {Object.keys(this.state.actor).length ? <ActorInfo actor={this.state.actor}/> : ""}
+        {Object.keys(this.state.actor).length ? <ActorInfo actor={this.state.actor}/> : <Loader />}
       </div>
     );
   }
