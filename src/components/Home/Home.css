@@ -6,11 +6,11 @@
 @media only screen and (max-width: 768px) {
   .home {
     width: 100%;
-  } 
+  }
 }
 
 .home h2 {
   margin-top: 5%;
   text-align: center;
-  color: #8E8D89;
+  color: #8e8d89;
 }

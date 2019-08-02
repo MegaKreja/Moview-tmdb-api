@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NewMovies.css';
+import './MoviesList.css';
 
-const newMovies = props => {
-  const newMovies = props.newMovies.map((movie, i) => {
+const MoviesList = props => {
+  const moviesList = props.moviesList.map((movie, i) => {
     let imageLink = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
     let link = '/movie/' + movie.id;
     return (
@@ -15,7 +15,7 @@ const newMovies = props => {
     );
   });
 
-  return <div className='movies'>{newMovies}</div>;
+  return <div className='movies'>{moviesList}</div>;
 };
 
-export default newMovies;
+export default MoviesList;

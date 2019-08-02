@@ -1,7 +1,15 @@
+html,
 body {
   margin: 0;
   padding: 0;
-  height:100%;
+  height: 100%;
   font-family: 'Comfortaa', cursive;
-  background-color: #EAE8DC;
+  background-color: #eae8dc;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Comfortaa', cursive;
 }
