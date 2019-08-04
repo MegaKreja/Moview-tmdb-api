@@ -36,7 +36,7 @@ class Search extends Component {
   render() {
     return (
       <Fragment>
-        <div className='input'>
+        <div className='searchInput'>
           <input
             type='text'
             placeholder=' Search a movie'
