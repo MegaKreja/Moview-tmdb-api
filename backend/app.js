@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const uuidv4 = require('uuid/v4');
+
+const authRoutes = require('./routes/auth');
+
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +23,8 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
 });
+
+app.use(authRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
