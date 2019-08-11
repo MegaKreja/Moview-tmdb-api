@@ -22,6 +22,10 @@
   font-family: 'Comfortaa', cursive;
 }
 
+.register input:invalid {
+  border: 2px solid #e0ded5;
+}
+
 .register input:focus {
   border-bottom: 2px solid #e88073;
   transition: 0.2s;
@@ -48,6 +52,11 @@
   cursor: pointer;
   outline: none;
   margin-top: 1%;
+}
+
+.register p {
+  color: #e85a50;
+  text-align: right;
 }
 
 @media only screen and (max-width: 768px) {

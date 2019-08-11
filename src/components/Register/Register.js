@@ -8,7 +8,8 @@ class Register extends Component {
     username: '',
     email: '',
     password: '',
-    password2: ''
+    password2: '',
+    errors: []
   };
 
   register = () => {
@@ -19,6 +20,7 @@ class Register extends Component {
       password,
       password2
     };
+    this.setState({ errors: [] });
     axios
       .post('http://localhost:8000/register', user)
       .then(res => {
@@ -28,8 +30,17 @@ class Register extends Component {
         }
       })
       .catch(error => {
-        console.log(error.response.data);
+        this.setState({ errors: error.response.data.errors });
       });
+  };
+
+  errorMessage = inputName => {
+    const { errors } = this.state;
+    const error = errors.find(err => err.param === inputName);
+    if (error) {
+      return <p>{error.msg}</p>;
+    }
+    return;
   };
 
   render() {
@@ -38,36 +49,52 @@ class Register extends Component {
         <h2>Register</h2>
         <label htmlFor='username'>Username</label>
         <input
+          style={{
+            border: this.errorMessage('username') && '2px solid #e88073'
+          }}
           onChange={e => this.setState({ username: e.target.value })}
           className='username'
           name='username'
           placeholder='johnsmith'
           type='text'
         />
+        {this.state.errors.length > 0 && this.errorMessage('username')}
         <label htmlFor='email'>Email</label>
         <input
+          style={{
+            border: this.errorMessage('email') && '2px solid #e88073'
+          }}
           onChange={e => this.setState({ email: e.target.value })}
           className='email'
           name='email'
           placeholder='johnsmith@gmail.com'
           type='text'
         />
+        {this.state.errors.length > 0 && this.errorMessage('email')}
         <label htmlFor='password'>Password</label>
         <input
+          style={{
+            border: this.errorMessage('password') && '2px solid #e88073'
+          }}
           onChange={e => this.setState({ password: e.target.value })}
           className='pw'
           name='password'
           placeholder='Type a Password'
           type='password'
         />
+        {this.state.errors.length > 0 && this.errorMessage('password')}
         <label htmlFor='confirmPassword'>Confirm Password</label>
         <input
+          style={{
+            border: this.errorMessage('password2') && '2px solid #e88073'
+          }}
           onChange={e => this.setState({ password2: e.target.value })}
           className='pw'
           name='password2'
           placeholder='Confirm your password'
           type='password'
         />
+        {this.state.errors.length > 0 && this.errorMessage('password2')}
         <Link to='/login'>Already have an account?</Link>
         <br />
         <button onClick={this.register} className='btnRegister'>
