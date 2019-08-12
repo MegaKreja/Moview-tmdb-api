@@ -51,6 +51,11 @@
   margin-bottom: 2%;
 }
 
+.login p {
+  color: #e85a50;
+  text-align: right;
+}
+
 @media only screen and (max-width: 768px) {
   .login {
     width: 300px;
