@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 exports.register = (req, res, next) => {
-  console.log(req.body);
   const { username, email, password, password2 } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -66,6 +65,39 @@ exports.login = (req, res, next) => {
         }
       );
       res.status(200).json({ token, userId: loadedUser._id.toString() });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.forgotPassword = (req, res, next) => {
+  const { email, password, password2 } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  User.findOne({ email })
+    .then(user => {
+      bcrypt
+        .hash(password, 12)
+        .then(hashedPassword => {
+          user.password = hashedPassword;
+          user.save().then(result => {
+            res
+              .status(200)
+              .json({ message: 'Password is successfully changed!' });
+          });
+        })
+        .catch(err => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        });
     })
     .catch(err => {
       if (!err.statusCode) {

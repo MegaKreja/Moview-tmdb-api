@@ -22,7 +22,7 @@ class Register extends Component {
     };
     this.setState({ errors: [] });
     axios
-      .post('http://localhost:8000/register', user)
+      .post('http://localhost:8000/auth/register', user)
       .then(res => {
         console.log(res);
         if (res.data.message === 'Success') {

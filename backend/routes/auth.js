@@ -81,5 +81,35 @@ router.post(
   ],
   authController.login
 );
+router.post(
+  '/forgot-password',
+  [
+    check('email')
+      .isEmail()
+      .withMessage('Your email is not valid!')
+      .custom((value, { req }) => {
+        return User.findOne({ email: value }).then(user => {
+          if (!user) {
+            return Promise.reject('User with that email does not exists!');
+          }
+        });
+      })
+      .normalizeEmail(),
+    check('password')
+      .isLength({ min: 5 })
+      .withMessage('Password must have more than 5 characters!')
+      .custom((value, { req }) => {
+        if (value !== req.body.password2) {
+          throw new Error("Passwords don't match!");
+        } else {
+          return value;
+        }
+      }),
+    check('password2')
+      .isLength({ min: 5 })
+      .withMessage('Confirm password must have more than 5 characters')
+  ],
+  authController.forgotPassword
+);
 
 module.exports = router;

@@ -19,7 +19,7 @@ class Login extends Component {
     };
     this.setState({ errors: [] });
     axios
-      .post('http://localhost:8000/login', user)
+      .post('http://localhost:8000/auth/login', user)
       .then(res => {
         console.log(res);
         this.props.history.push('/');
@@ -40,9 +40,12 @@ class Login extends Component {
   };
 
   render() {
+    const resetPassMessage =
+      this.props.location.state && this.props.location.state.message;
     return (
       <div className='login'>
         <h2>Login</h2>
+        <h4>{resetPassMessage}</h4>
         <label htmlFor='username'>Username</label>
         <input
           style={{
