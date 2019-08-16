@@ -1,28 +1,40 @@
 .header {
   text-align: center;
-  color: #E85A50;
 }
 
-img {
+.header img {
   width: 60px;
+}
+
+.header a {
+  text-decoration: none;
+  color: #000;
+}
+
+.ui.vertical.menu {
+  display: inline-block;
+  text-decoration: none;
 }
 
 .header h1 {
   font-size: 3rem;
-  color: #E85A50;
+  color: #e85a50;
   display: inline-block;
 }
 
-.header p, .header a {
-  color: #E88073;
+.header p,
+.header .tmdbLink {
+  color: #e88073;
 }
 
-.header h1, .header p {
+.header h1,
+.header p {
   margin: 0;
   padding: 0;
 }
 
-.header h1:hover, .header span:hover {
-  color: #BC2721;
+.header h1:hover,
+.header span:hover {
+  color: #bc2721;
   cursor: pointer;
 }

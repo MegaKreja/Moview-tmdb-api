@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import { Dropdown, Menu } from 'semantic-ui-react';
 import Icon from '../../styles/images/film-icon.png';
 
 const header = props => {
@@ -14,6 +15,7 @@ const header = props => {
       <p className='info'>
         Provided by{' '}
         <a
+          className='tmdbLink'
           href='https://www.themoviedb.org/?language=en'
           rel='noopener noreferrer'
           target='_blank'
@@ -21,6 +23,18 @@ const header = props => {
           <span className='tmdbLink'>TMDB</span>
         </a>
       </p>
+      <Menu vertical className='menu'>
+        <Dropdown item text='Logged in as Guest'>
+          <Dropdown.Menu>
+            <Dropdown.Item>
+              <Link to='/login'>Login</Link>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <Link to='/register'>Register</Link>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Menu>
     </div>
   );
 };
