@@ -112,4 +112,6 @@ router.post(
   authController.forgotPassword
 );
 
+router.get('/get-user', authController.getUser);
+
 module.exports = router;

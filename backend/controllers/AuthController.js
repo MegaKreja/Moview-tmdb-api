@@ -56,6 +56,7 @@ exports.login = (req, res, next) => {
       }
       const token = jwt.sign(
         {
+          username: loadedUser.username,
           email: loadedUser.email,
           userId: loadedUser._id.toString()
         },
@@ -105,4 +106,22 @@ exports.forgotPassword = (req, res, next) => {
       }
       next(err);
     });
+};
+
+exports.getUser = (req, res, next) => {
+  const usertoken = req.headers.authorization;
+  const token = usertoken.split(' ')[1];
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    console.log(decoded);
+    if (err) {
+      return res.status(200).json({ expired: true });
+    }
+    return res
+      .status(200)
+      .json({
+        _id: decoded._id,
+        username: decoded.username,
+        email: decoded.email
+      });
+  });
 };

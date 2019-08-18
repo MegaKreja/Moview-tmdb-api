@@ -22,6 +22,11 @@ class Login extends Component {
       .post('http://localhost:8000/auth/login', user)
       .then(res => {
         console.log(res);
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userId', res.data.userId);
+        const ms = 60 * 360 * 1000;
+        const expirationDate = new Date(new Date().getTime() + ms);
+        localStorage.setItem('expirationDate', expirationDate.toISOString());
         this.props.history.push('/');
       })
       .catch(error => {
