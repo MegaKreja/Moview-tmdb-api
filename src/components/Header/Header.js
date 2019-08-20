@@ -30,6 +30,13 @@ class Header extends Component {
       .catch(err => console.log(err));
   };
 
+  signOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('userId');
+    this.setState({ user: {} });
+  };
+
   render() {
     const { username } = this.state.user;
     const loggedOutMenu = (
@@ -51,11 +58,11 @@ class Header extends Component {
         <Dropdown.Item as={Link} to='/ratings'>
           Ratings
         </Dropdown.Item>
-        <Dropdown.Item as={Link} to='/edit-profile'>
+        <Dropdown.Item as={Link} to={`/edit/${username}`}>
           Edit Profile
         </Dropdown.Item>
-        <Dropdown.Item as={Link} to='/'>
-          Signout
+        <Dropdown.Item onClick={this.signOut} as={Link} to='/'>
+          Sign Out
         </Dropdown.Item>
       </Dropdown.Menu>
     );

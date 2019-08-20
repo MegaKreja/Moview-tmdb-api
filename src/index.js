@@ -9,6 +9,7 @@ import Actor from './components/Actor/Actor';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import EditProfile from './components/EditProfile/EditProfile';
 
 // EXACT u buducnosti jos ruta kad se napravi komponenta za jedan film i glumce
 const routes = (
@@ -21,6 +22,7 @@ const routes = (
         <Route path='/register' component={Register} />
         <Route path='/login' component={Login} />
         <Route path='/login/forgottenpassword' component={ResetPassword} />
+        <Route path='/edit/:username' component={EditProfile} />
       </div>
     </ScrollToTop>
   </BrowserRouter>
