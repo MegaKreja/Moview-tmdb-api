@@ -15,7 +15,8 @@ exports.register = (req, res, next) => {
         const user = new User({
           username,
           email,
-          password: hashedPassword
+          password: hashedPassword,
+          image: ''
         });
         return user.save();
       })
@@ -58,6 +59,7 @@ exports.login = (req, res, next) => {
         {
           username: loadedUser.username,
           email: loadedUser.email,
+          image: '',
           userId: loadedUser._id.toString()
         },
         process.env.SECRET,
@@ -116,12 +118,21 @@ exports.getUser = (req, res, next) => {
     if (err) {
       return res.status(200).json({ expired: true });
     }
-    return res
-      .status(200)
-      .json({
-        _id: decoded._id,
-        username: decoded.username,
-        email: decoded.email
-      });
+    return res.status(200).json({
+      _id: decoded._id,
+      username: decoded.username,
+      email: decoded.email,
+      image: decoded.image
+    });
   });
+};
+
+exports.editProfile = (req, res, next) => {
+  const { username, email } = req.body;
+  const imageUrl = req.file.path.replace('\\', '/');
+  console.log(username, email, imageUrl);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
 };

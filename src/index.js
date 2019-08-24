@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import ScrollToTop from 'react-router-scroll-top';
 import './index.css';
 import Home from './components/Home/Home';
@@ -16,13 +16,16 @@ const routes = (
   <BrowserRouter>
     <ScrollToTop>
       <div>
-        <Route exact={true} path='/' component={Home} />
-        <Route path='/movie/:id' component={Movie} />
-        <Route path='/actor/:id' component={Actor} />
-        <Route path='/register' component={Register} />
-        <Route path='/login' component={Login} />
-        <Route path='/login/forgottenpassword' component={ResetPassword} />
-        <Route path='/edit/:username' component={EditProfile} />
+        <Switch>
+          <Route exact={true} path='/' component={Home} />
+          <Route path='/movie/:id' component={Movie} />
+          <Route path='/actor/:id' component={Actor} />
+          <Route path='/register' component={Register} />
+          <Route path='/login' component={Login} />
+          <Route path='/login/forgottenpassword' component={ResetPassword} />
+          <Route path='/edit/:username' component={EditProfile} />
+          <Route render={() => <Redirect to='/' />} />
+        </Switch>
       </div>
     </ScrollToTop>
   </BrowserRouter>

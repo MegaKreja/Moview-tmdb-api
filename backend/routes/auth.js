@@ -1,4 +1,5 @@
 const express = require('express');
+const isAuth = require('../middleware/is-auth');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const router = express.Router();
@@ -113,5 +114,34 @@ router.post(
 );
 
 router.get('/get-user', authController.getUser);
+router.put(
+  '/edit-profile',
+  [
+    check('username')
+      .not()
+      .isEmpty()
+      .withMessage('Username must not be empty!')
+      .custom((value, { req }) => {
+        return User.findOne({ username: value }).then(user => {
+          if (user) {
+            return Promise.reject('Username already exists!');
+          }
+        });
+      }),
+    check('email')
+      .isEmail()
+      .withMessage('Your email is not valid!')
+      .custom((value, { req }) => {
+        return User.findOne({ email: value }).then(user => {
+          if (user) {
+            return Promise.reject('E-Mail address already exists!');
+          }
+        });
+      })
+      .normalizeEmail()
+  ],
+  isAuth,
+  authController.editProfile
+);
 
 module.exports = router;

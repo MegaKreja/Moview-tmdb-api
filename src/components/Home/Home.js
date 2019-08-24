@@ -44,7 +44,7 @@ class Home extends Component {
           '&with_genres=' +
           value;
     axios.get(link).then(res => {
-      const moviesList = res.data.results;
+      const moviesList = res.data.results.slice();
       this.setState({ moviesList });
     });
   };

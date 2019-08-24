@@ -7,8 +7,59 @@ class EditProfile extends Component {
   state = {
     username: '',
     email: '',
-    image: '',
+    image: null,
     errors: []
+  };
+
+  componentDidMount() {
+    const jwt = localStorage.getItem('token');
+    if (jwt) {
+      this.getUser(jwt);
+    }
+  }
+
+  getUser = jwt => {
+    axios
+      .get('http://localhost:8000/auth/get-user', {
+        headers: { Authorization: `Bearer ${jwt}` }
+      })
+      .then(res => {
+        if (!res.data.expired) {
+          const { username, email, image } = res.data;
+          this.setState({ username, email, image });
+        }
+      })
+      .catch(err => this.props.history.push('/'));
+  };
+
+  editProfile = e => {
+    const jwt = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('username', this.state.username);
+    formData.append('email', this.state.email);
+    formData.append('image', this.state.image);
+    const config = {
+      onUploadProgress: progressEvent => {
+        console.log(
+          'Upload Progress: ' +
+            Math.round((progressEvent.loaded / progressEvent.total) * 100) +
+            '%'
+        );
+      },
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    };
+    axios
+      .put('http://localhost:8000/auth/edit-profile', formData, config)
+      .then(res => {
+        this.props.history.push('/');
+      })
+      .catch(err => console.log(err));
+  };
+
+  addImage = e => {
+    this.setState({ image: e.target.files[0] });
   };
 
   errorMessage = inputName => {
@@ -21,6 +72,7 @@ class EditProfile extends Component {
   };
 
   render() {
+    const { username, email, image } = this.state;
     return (
       <div className='edit'>
         <h2>Edit profile</h2>
@@ -34,6 +86,7 @@ class EditProfile extends Component {
           name='username'
           placeholder='johnsmith'
           type='text'
+          value={username}
         />
         {this.state.errors.length > 0 && this.errorMessage('username')}
         <label htmlFor='email'>Email</label>
@@ -46,11 +99,19 @@ class EditProfile extends Component {
           name='email'
           placeholder='johnsmith@gmail.com'
           type='text'
+          value={email}
         />
         {this.state.errors.length > 0 && this.errorMessage('email')}
-        <input className='image' name='image' type='file' />
+        <input
+          className='image'
+          name='image'
+          type='file'
+          onChange={this.addImage}
+        />
         <br />
-        <button className='btnEdit'>Edit</button>
+        <button className='btnEdit' onClick={this.editProfile}>
+          Edit
+        </button>
       </div>
     );
   }
