@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -114,25 +115,61 @@ exports.getUser = (req, res, next) => {
   const usertoken = req.headers.authorization;
   const token = usertoken.split(' ')[1];
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    console.log(decoded);
     if (err) {
       return res.status(200).json({ expired: true });
+    } else {
+      User.findOne({ _id: decoded.userId })
+        .then(user => {
+          return res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            image: user.image
+          });
+        })
+        .catch(err => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        });
     }
-    return res.status(200).json({
-      _id: decoded._id,
-      username: decoded.username,
-      email: decoded.email,
-      image: decoded.image
-    });
   });
 };
 
 exports.editProfile = (req, res, next) => {
   const { username, email } = req.body;
-  const imageUrl = req.file.path.replace('\\', '/');
-  console.log(username, email, imageUrl);
+  let imageUrl = '';
+  if (req.file) {
+    console.log(req.file.path);
+    imageUrl = req.file.path.replace(/\\/g, '/').substring(10);
+  }
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
+
+  User.findOne({ _id: req.userId })
+    .then(user => {
+      user.username = username;
+      user.email = email;
+      user.image = imageUrl;
+      user
+        .save()
+        .then(result => {
+          res.json({ message: 'Edit of user profile completed', user: result });
+        })
+        .catch(err => {
+          if (!err.statusCode) {
+            err.statusCode = 500;
+          }
+          next(err);
+        });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };

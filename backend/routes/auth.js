@@ -48,6 +48,7 @@ router.post(
   ],
   authController.register
 );
+
 router.post(
   '/login',
   [
@@ -82,6 +83,7 @@ router.post(
   ],
   authController.login
 );
+
 router.post(
   '/forgot-password',
   [
@@ -114,8 +116,10 @@ router.post(
 );
 
 router.get('/get-user', authController.getUser);
+
 router.put(
   '/edit-profile',
+  isAuth,
   [
     check('username')
       .not()
@@ -123,7 +127,7 @@ router.put(
       .withMessage('Username must not be empty!')
       .custom((value, { req }) => {
         return User.findOne({ username: value }).then(user => {
-          if (user) {
+          if (user && value !== req.username) {
             return Promise.reject('Username already exists!');
           }
         });
@@ -132,15 +136,16 @@ router.put(
       .isEmail()
       .withMessage('Your email is not valid!')
       .custom((value, { req }) => {
+        // console.log(value, req.body.email);
         return User.findOne({ email: value }).then(user => {
-          if (user) {
+          if (user && value !== req.email) {
             return Promise.reject('E-Mail address already exists!');
           }
         });
       })
       .normalizeEmail()
   ],
-  isAuth,
+
   authController.editProfile
 );
 

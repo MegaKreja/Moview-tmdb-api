@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './EditProfile.css';
 
@@ -7,7 +6,7 @@ class EditProfile extends Component {
   state = {
     username: '',
     email: '',
-    image: null,
+    image: '',
     errors: []
   };
 
@@ -55,11 +54,12 @@ class EditProfile extends Component {
       .then(res => {
         this.props.history.push('/');
       })
-      .catch(err => console.log(err));
+      .catch(error => this.setState({ errors: error.response.data.errors }));
   };
 
   addImage = e => {
     this.setState({ image: e.target.files[0] });
+    console.log(this.state.image);
   };
 
   errorMessage = inputName => {

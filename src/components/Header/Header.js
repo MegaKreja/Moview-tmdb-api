@@ -39,6 +39,7 @@ class Header extends Component {
 
   render() {
     const { username } = this.state.user;
+    const image = this.state.user.image;
     const loggedOutMenu = (
       <Dropdown.Menu>
         <Dropdown.Item as={Link} to='/login'>
@@ -71,6 +72,7 @@ class Header extends Component {
       <div className='header'>
         <img src={Icon} alt='icon images' />
         <br />
+        <img src={image} alt='profile pic' />
         <Link to='/'>
           <h1>MoView</h1>
         </Link>
