@@ -72,7 +72,7 @@ class EditProfile extends Component {
   };
 
   render() {
-    const { username, email, image } = this.state;
+    const { username, email } = this.state;
     return (
       <div className='edit'>
         <h2>Edit profile</h2>

@@ -153,7 +153,9 @@ exports.editProfile = (req, res, next) => {
     .then(user => {
       user.username = username;
       user.email = email;
-      user.image = imageUrl;
+      if (imageUrl) {
+        user.image = imageUrl;
+      }
       user
         .save()
         .then(result => {

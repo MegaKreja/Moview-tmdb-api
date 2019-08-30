@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import { Dropdown, Menu } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 import Icon from '../../styles/images/film-icon.png';
 
 class Header extends Component {
@@ -70,28 +70,31 @@ class Header extends Component {
 
     return (
       <div className='header'>
-        <img src={Icon} alt='icon images' />
-        <br />
-        <img src={image} alt='profile pic' />
-        <Link to='/'>
-          <h1>MoView</h1>
-        </Link>
-        <p className='info'>
-          Provided by{' '}
-          <a
-            className='tmdbLink'
-            href='https://www.themoviedb.org/?language=en'
-            rel='noopener noreferrer'
-            target='_blank'
-          >
-            <span className='tmdbLink'>TMDB</span>
-          </a>
-        </p>
-        <Menu vertical className='menu'>
-          <Dropdown item text={`Logged in as ${username ? username : 'Guest'}`}>
+        <div className='logo'>
+          <img src={Icon} alt='icon images' />
+          <br />
+          <Link to='/'>
+            <h1>MoView</h1>
+          </Link>
+          <p className='info'>
+            Provided by{' '}
+            <a
+              className='tmdbLink'
+              href='https://www.themoviedb.org/?language=en'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <span className='tmdbLink'>TMDB</span>
+            </a>
+          </p>
+        </div>
+
+        <div className='userInfo'>
+          {image && <img src={image} alt='profile pic' />}
+          <Dropdown item text={`${username ? username : 'Guest'}`}>
             {username ? loggedInMenu : loggedOutMenu}
           </Dropdown>
-        </Menu>
+        </div>
       </div>
     );
   }

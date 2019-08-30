@@ -1,5 +1,8 @@
 .header {
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header img {
@@ -11,7 +14,7 @@
   color: #000;
 }
 
-.ui.vertical.menu {
+.ui.dropdown {
   display: inline-block;
   text-decoration: none;
 }
@@ -37,4 +40,18 @@
 .header span:hover {
   color: #bc2721;
   cursor: pointer;
+}
+
+.header .userInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 18px;
+}
+
+.header .userInfo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
