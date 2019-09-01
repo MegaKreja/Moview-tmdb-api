@@ -10,7 +10,10 @@ const key = '18195450fabc62a70a30dbc0d43118e1';
 
 class Movie extends Component {
   state = {
-    movie: {}
+    movie: {},
+    favorite: false,
+    watchlist: false,
+    rating: 0
   };
 
   getMovie = () => {
@@ -27,6 +30,22 @@ class Movie extends Component {
         const movie = res.data;
         this.setState({ movie });
       });
+  };
+
+  changeToFavorite = () => {
+    this.setState(prevState => {
+      return {
+        favorite: !prevState.favorite
+      };
+    });
+  };
+
+  putToWatchlist = () => {
+    this.setState(prevState => {
+      return {
+        watchlist: !prevState.watchlist
+      };
+    });
   };
 
   componentDidMount() {
@@ -58,7 +77,14 @@ class Movie extends Component {
         <Header />
         <Search />
         {Object.keys(this.state.movie).length ? (
-          <MovieInfo pageChange={this.pageChange} movie={this.state.movie} />
+          <MovieInfo
+            pageChange={this.pageChange}
+            movie={this.state.movie}
+            favorite={this.state.favorite}
+            watchlist={this.state.watchlist}
+            changeToFavorite={this.changeToFavorite}
+            putToWatchlist={this.putToWatchlist}
+          />
         ) : (
           <Loader />
         )}

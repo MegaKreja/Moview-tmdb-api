@@ -53,10 +53,10 @@ class Header extends Component {
     // set routes better in the future
     const loggedInMenu = (
       <Dropdown.Menu>
-        <Dropdown.Item as={Link} to='/watchlist'>
+        <Dropdown.Item as={Link} to={`/watchlist/${username}`}>
           Watchlist
         </Dropdown.Item>
-        <Dropdown.Item as={Link} to='/ratings'>
+        <Dropdown.Item as={Link} to={`/favorite/${username}`}>
           Ratings
         </Dropdown.Item>
         <Dropdown.Item as={Link} to={`/edit/${username}`}>

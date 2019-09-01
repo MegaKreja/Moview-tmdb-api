@@ -1,12 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { Rating } from 'semantic-ui-react';
 import './MovieInfo.css';
-import Star from '../../styles/images/star.png';
 import Placeholder from '../../styles/images/placeholder.png';
 import MoviePlaceholder from '../../styles/images/moviePlaceholder.png';
 
 const MovieInfo = props => {
   console.log(props);
+  const { favorite, watchlist, rating } = props;
   let posterImg = 'https://image.tmdb.org/t/p/w300' + props.movie.poster_path;
 
   const genres = props.movie.genres.map((genre, i) => {
@@ -75,6 +80,25 @@ const MovieInfo = props => {
               alt='movie poster'
             />
           </div>
+          <div className='cataloging'>
+            <div onClick={props.changeToFavorite} className='favorite'>
+              <FontAwesomeIcon
+                className={favorite ? 'heartColor' : 'heartNoColor'}
+                icon={faHeart}
+                size='2x'
+              />
+            </div>
+            <div onClick={props.putToWatchlist} className='watchlist'>
+              <FontAwesomeIcon
+                className={watchlist ? 'bookmarkColor' : 'bookmarkNoColor'}
+                icon={faBookmark}
+                size='2x'
+              />
+            </div>
+          </div>
+          <div className='moviewRating'>
+            <Rating icon='star' defaultRating={5} maxRating={10} />
+          </div>
         </div>
 
         <div className='right'>
@@ -92,8 +116,14 @@ const MovieInfo = props => {
             </div>
             <div className='rating'>
               <h2>
-                <img src={Star} alt='rating icon' /> {props.movie.vote_average}
+                TMDB rating
+                <FontAwesomeIcon className='star' icon={faStar} />{' '}
+                {props.movie.vote_average}
                 /10
+              </h2>
+              <h2>
+                MoView rating
+                <FontAwesomeIcon className='star' icon={faStar} /> 0/10
               </h2>
             </div>
           </div>
