@@ -4,16 +4,20 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 import { Dropdown } from 'semantic-ui-react';
 import Icon from '../../styles/images/film-icon.png';
+import Loader from '../Loader/Loader';
 
 class Header extends Component {
   state = {
-    user: {}
+    user: {},
+    username: ''
   };
 
   componentDidMount() {
     const jwt = localStorage.getItem('token');
     if (jwt) {
       this.isUserLoggedIn(jwt);
+    } else {
+      this.setState({ username: 'Guest' });
     }
   }
 
@@ -24,7 +28,10 @@ class Header extends Component {
       })
       .then(res => {
         if (!res.data.expired) {
-          this.setState({ user: res.data });
+          this.setState({ user: res.data }, () => {
+            const { username } = this.state.user;
+            this.setState({ username });
+          });
         }
       })
       .catch(err => console.log(err));
@@ -34,12 +41,14 @@ class Header extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
-    this.setState({ user: {} });
+    this.setState({ user: {}, username: '' });
   };
 
   render() {
-    const { username } = this.state.user;
-    const image = this.state.user.image;
+    const { image } = this.state.user;
+    const username = this.state.username.slice();
+    const imageLink = process.env.PUBLIC_URL + '/' + this.state.user.image;
+
     const loggedOutMenu = (
       <Dropdown.Menu>
         <Dropdown.Item as={Link} to='/login'>
@@ -57,7 +66,7 @@ class Header extends Component {
           Watchlist
         </Dropdown.Item>
         <Dropdown.Item as={Link} to={`/favorite/${username}`}>
-          Ratings
+          Favorite Movies
         </Dropdown.Item>
         <Dropdown.Item as={Link} to={`/edit/${username}`}>
           Edit Profile
@@ -90,9 +99,9 @@ class Header extends Component {
         </div>
 
         <div className='userInfo'>
-          {image && <img src={image} alt='profile pic' />}
-          <Dropdown item text={`${username ? username : 'Guest'}`}>
-            {username ? loggedInMenu : loggedOutMenu}
+          {image && <img src={imageLink} alt='profile pic' />}
+          <Dropdown item text={`${username}`}>
+            {username !== 'Guest' ? loggedInMenu : loggedOutMenu}
           </Dropdown>
         </div>
       </div>

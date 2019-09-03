@@ -11,9 +11,23 @@ const key = '18195450fabc62a70a30dbc0d43118e1';
 class Movie extends Component {
   state = {
     movie: {},
+    user: {},
     favorite: false,
     watchlist: false,
     rating: 0
+  };
+
+  isUserLoggedIn = jwt => {
+    axios
+      .get('http://localhost:8000/auth/get-user', {
+        headers: { Authorization: `Bearer ${jwt}` }
+      })
+      .then(res => {
+        if (!res.data.expired) {
+          this.setState({ user: res.data });
+        }
+      })
+      .catch(err => console.log(err));
   };
 
   getMovie = () => {
@@ -50,6 +64,10 @@ class Movie extends Component {
 
   componentDidMount() {
     this.getMovie();
+    const jwt = localStorage.getItem('token');
+    if (jwt) {
+      this.isUserLoggedIn(jwt);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,6 +98,7 @@ class Movie extends Component {
           <MovieInfo
             pageChange={this.pageChange}
             movie={this.state.movie}
+            user={this.state.user}
             favorite={this.state.favorite}
             watchlist={this.state.watchlist}
             changeToFavorite={this.changeToFavorite}

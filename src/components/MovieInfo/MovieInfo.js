@@ -80,24 +80,44 @@ const MovieInfo = props => {
               alt='movie poster'
             />
           </div>
-          <div className='cataloging'>
-            <div onClick={props.changeToFavorite} className='favorite'>
-              <FontAwesomeIcon
-                className={favorite ? 'heartColor' : 'heartNoColor'}
-                icon={faHeart}
-                size='2x'
-              />
+          {Object.keys(props.user).length ? (
+            <div className='cataloging'>
+              <div onClick={props.changeToFavorite} className='favorite'>
+                <FontAwesomeIcon
+                  className={favorite ? 'heartColor' : 'heartNoColor'}
+                  icon={faHeart}
+                  size='2x'
+                />
+              </div>
+              <div onClick={props.putToWatchlist} className='watchlist'>
+                <FontAwesomeIcon
+                  className={watchlist ? 'bookmarkColor' : 'bookmarkNoColor'}
+                  icon={faBookmark}
+                  size='2x'
+                />
+              </div>
             </div>
-            <div onClick={props.putToWatchlist} className='watchlist'>
-              <FontAwesomeIcon
-                className={watchlist ? 'bookmarkColor' : 'bookmarkNoColor'}
-                icon={faBookmark}
-                size='2x'
-              />
+          ) : (
+            ''
+          )}
+          {Object.keys(props.user).length ? (
+            <div className='moviewRating'>
+              <Rating icon='star' defaultRating={0} maxRating={10} />
             </div>
-          </div>
-          <div className='moviewRating'>
-            <Rating icon='star' defaultRating={5} maxRating={10} />
+          ) : (
+            ''
+          )}
+          <div className='rating'>
+            <h4>
+              TMDB rating
+              <FontAwesomeIcon className='star' icon={faStar} />{' '}
+              {props.movie.vote_average}
+              /10
+            </h4>
+            <h4>
+              MoView rating
+              <FontAwesomeIcon className='star' icon={faStar} /> 0/10
+            </h4>
           </div>
         </div>
 
@@ -113,18 +133,6 @@ const MovieInfo = props => {
             <h4 className='runtime'>{props.movie.runtime} minutes</h4>
             <div className='summary'>
               <h3>{props.movie.overview}</h3>
-            </div>
-            <div className='rating'>
-              <h2>
-                TMDB rating
-                <FontAwesomeIcon className='star' icon={faStar} />{' '}
-                {props.movie.vote_average}
-                /10
-              </h2>
-              <h2>
-                MoView rating
-                <FontAwesomeIcon className='star' icon={faStar} /> 0/10
-              </h2>
             </div>
           </div>
         </div>
