@@ -32,6 +32,8 @@ class Header extends Component {
             const { username } = this.state.user;
             this.setState({ username });
           });
+        } else {
+          this.setState({ username: 'Guest' });
         }
       })
       .catch(err => console.log(err));
@@ -41,7 +43,7 @@ class Header extends Component {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('userId');
-    this.setState({ user: {}, username: '' });
+    this.setState({ user: {}, username: 'Guest' });
   };
 
   render() {

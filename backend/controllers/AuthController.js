@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -17,7 +16,8 @@ exports.register = (req, res, next) => {
           username,
           email,
           password: hashedPassword,
-          image: ''
+          image: '',
+          favoriteMovie: []
         });
         return user.save();
       })

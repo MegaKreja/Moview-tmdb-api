@@ -17,7 +17,13 @@ const UserSchema = new Schema({
   image: {
     type: String
   },
-  movies: [Object]
+  favoriteMovies: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Favorite',
+      required: true
+    }
+  ]
 });
 
 module.exports = mongoose.model('User', UserSchema);

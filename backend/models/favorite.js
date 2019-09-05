@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const movieSchema = new Schema({
+const favoriteSchema = new Schema({
   tmdbId: {
-    type: String,
+    type: Number,
     required: true
   },
   title: {
@@ -18,14 +18,13 @@ const movieSchema = new Schema({
     type: String,
     required: true
   },
-  favoriteMovies: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  watchlist: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
+  favoritedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    }
+  ]
 });
 
-module.exports = mongoose.model('movie', movieSchema);
+module.exports = mongoose.model('favorite', favoriteSchema);

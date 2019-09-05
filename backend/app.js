@@ -7,6 +7,7 @@ const multer = require('multer');
 const uuidv4 = require('uuid/v4');
 
 const authRoutes = require('./routes/auth');
+const listsRoutes = require('./routes/lists');
 
 require('dotenv').config();
 
@@ -50,6 +51,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/lists', listsRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);

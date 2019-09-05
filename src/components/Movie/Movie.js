@@ -47,11 +47,22 @@ class Movie extends Component {
   };
 
   changeToFavorite = () => {
-    this.setState(prevState => {
-      return {
-        favorite: !prevState.favorite
-      };
-    });
+    const { movie, user } = this.state;
+    this.setState(
+      prevState => ({ favorite: !prevState.favorite }),
+      () => {
+        axios
+          .post('http://localhost:8000/lists/favorite', {
+            movie,
+            user,
+            favorite: this.state.favorite
+          })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => console.log(err));
+      }
+    );
   };
 
   putToWatchlist = () => {
