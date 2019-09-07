@@ -24,7 +24,12 @@ class Movie extends Component {
       })
       .then(res => {
         if (!res.data.expired) {
-          this.setState({ user: res.data });
+          const isFavorite = res.data.favoriteMovies.find(
+            movie => movie === this.state.movie.id
+          );
+          console.log(isFavorite);
+          this.setState({ user: res.data, favorite: isFavorite });
+          console.log(res.data);
         }
       })
       .catch(err => console.log(err));

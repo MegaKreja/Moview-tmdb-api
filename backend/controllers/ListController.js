@@ -18,9 +18,9 @@ exports.favorited = (req, res, next) => {
         .save()
         .then(favoriteMovie => {
           User.findById({ _id: user._id }).then(user => {
-            user.favoriteMovies = [favoriteMovie._id];
+            user.favoriteMovies = [favoriteMovie.tmdbId];
             user.save().then(user => {
-              res.status(201).json({ message: 'Success' });
+              res.status(201).json({ message: 'Changed to favorite' });
             });
           });
         })
@@ -45,17 +45,20 @@ exports.favorited = (req, res, next) => {
         .then(favoriteMovie => {
           User.findById({ _id: user._id }).then(user => {
             let favoriteMovies = user.favoriteMovies.slice();
-            const favoriteMovieId = favoriteMovie._id;
+            const favoriteMovieId = favoriteMovie.tmdbId;
             if (favorite) {
               favoriteMovies.push(favoriteMovieId);
             } else {
               favoriteMovies = favoriteMovies.filter(
-                movieIndex => movieIndex.toString() !== favoriteMovieId
+                movieIndex => movieIndex !== favoriteMovieId
               );
             }
             user.favoriteMovies = favoriteMovies;
             user.save().then(user => {
-              res.status(201).json({ message: 'Favorite movie changed' });
+              const message = favorite
+                ? 'Changed to favorite'
+                : 'Removed from favorite';
+              res.status(201).json({ message });
             });
           });
         })

@@ -19,7 +19,7 @@ const UserSchema = new Schema({
   },
   favoriteMovies: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.Number,
       ref: 'Favorite',
       required: true
     }

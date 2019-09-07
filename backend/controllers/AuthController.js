@@ -17,7 +17,7 @@ exports.register = (req, res, next) => {
           email,
           password: hashedPassword,
           image: '',
-          favoriteMovie: []
+          favoriteMovies: []
         });
         return user.save();
       })
@@ -60,7 +60,6 @@ exports.login = (req, res, next) => {
         {
           username: loadedUser.username,
           email: loadedUser.email,
-          image: '',
           userId: loadedUser._id.toString()
         },
         process.env.SECRET,
@@ -124,7 +123,8 @@ exports.getUser = (req, res, next) => {
             _id: user._id,
             username: user.username,
             email: user.email,
-            image: user.image
+            image: user.image,
+            favoriteMovies: user.favoriteMovies
           });
         })
         .catch(err => {
