@@ -196,3 +196,9 @@ h4 {
     border: 0;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .left .poster img {
+    width: 50%;
+  }
+}
