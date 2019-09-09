@@ -27,8 +27,15 @@ class Movie extends Component {
           const isFavorite = res.data.favoriteMovies.find(
             movie => movie === this.state.movie.id
           );
+          const inWatchlist = res.data.watchlistMovies.find(
+            movie => movie === this.state.movie.id
+          );
           console.log(isFavorite);
-          this.setState({ user: res.data, favorite: isFavorite });
+          this.setState({
+            user: res.data,
+            favorite: isFavorite,
+            watchlist: inWatchlist
+          });
           console.log(res.data);
         }
       })
@@ -71,11 +78,22 @@ class Movie extends Component {
   };
 
   putToWatchlist = () => {
-    this.setState(prevState => {
-      return {
-        watchlist: !prevState.watchlist
-      };
-    });
+    const { movie, user } = this.state;
+    this.setState(
+      prevState => ({ watchlist: !prevState.watchlist }),
+      () => {
+        axios
+          .post('http://localhost:8000/lists/watchlist', {
+            movie,
+            user,
+            watchlist: this.state.watchlist
+          })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => console.log(err));
+      }
+    );
   };
 
   componentDidMount() {

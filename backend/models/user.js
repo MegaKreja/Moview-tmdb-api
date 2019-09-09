@@ -23,6 +23,13 @@ const UserSchema = new Schema({
       ref: 'Favorite',
       required: true
     }
+  ],
+  watchlistMovies: [
+    {
+      type: mongoose.Schema.Types.Number,
+      ref: 'Watchlist',
+      required: true
+    }
   ]
 });
 
