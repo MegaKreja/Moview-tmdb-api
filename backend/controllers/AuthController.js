@@ -17,8 +17,8 @@ exports.register = (req, res, next) => {
           email,
           password: hashedPassword,
           image: '',
-          favoriteMovies: [],
-          watchlistMovies: []
+          favoriteMovies: { list: [], tmdbId: [] },
+          watchlistMovies: { list: [], tmdbId: [] }
         });
         return user.save();
       })

@@ -17,20 +17,36 @@ const UserSchema = new Schema({
   image: {
     type: String
   },
-  favoriteMovies: [
-    {
-      type: mongoose.Schema.Types.Number,
-      ref: 'Favorite',
-      required: true
-    }
-  ],
-  watchlistMovies: [
-    {
-      type: mongoose.Schema.Types.Number,
-      ref: 'Watchlist',
-      required: true
-    }
-  ]
+  favoriteMovies: {
+    list: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Favorite',
+        required: true
+      }
+    ],
+    tmdbId: [
+      {
+        type: Number,
+        required: true
+      }
+    ]
+  },
+  watchlistMovies: {
+    list: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Watchlist',
+        required: true
+      }
+    ],
+    tmdbId: [
+      {
+        type: Number,
+        required: true
+      }
+    ]
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);

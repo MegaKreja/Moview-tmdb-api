@@ -17,6 +17,22 @@ class Movie extends Component {
     rating: 0
   };
 
+  // getUser = user => {
+  //   this.setState({ user }, () => {
+  //     const isFavorite = this.state.user.favoriteMovies.find(
+  //       movie => movie.tmdbId === this.state.movie.id
+  //     );
+  //     const inWatchlist = this.state.user.watchlistMovies.find(
+  //       movie => movie.tmdbId === this.state.movie.id
+  //     );
+  //     console.log(isFavorite, inWatchlist);
+  //     this.setState({
+  //       favorite: isFavorite,
+  //       watchlist: inWatchlist
+  //     });
+  //   });
+  // };
+
   isUserLoggedIn = jwt => {
     axios
       .get('http://localhost:8000/auth/get-user', {
@@ -24,13 +40,13 @@ class Movie extends Component {
       })
       .then(res => {
         if (!res.data.expired) {
-          const isFavorite = res.data.favoriteMovies.find(
+          const isFavorite = res.data.favoriteMovies.tmdbId.find(
             movie => movie === this.state.movie.id
           );
-          const inWatchlist = res.data.watchlistMovies.find(
+          const inWatchlist = res.data.watchlistMovies.tmdbId.find(
             movie => movie === this.state.movie.id
           );
-          console.log(isFavorite);
+          console.log(isFavorite, inWatchlist);
           this.setState({
             user: res.data,
             favorite: isFavorite,
@@ -107,11 +123,15 @@ class Movie extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.movie !== this.state.movie) {
       this.getMovie();
+      const jwt = localStorage.getItem('token');
+      if (jwt) {
+        this.isUserLoggedIn(jwt);
+      }
     }
   }
 
   componentWillUnmount() {
-    this.setState({ movie: {} });
+    this.setState({ movie: {}, user: {}, favorite: false, watchlist: false });
     console.log('unmount');
   }
 
@@ -120,7 +140,7 @@ class Movie extends Component {
   }
 
   pageChange = () => {
-    this.setState({ movie: {} });
+    this.setState({ movie: {}, user: {}, favorite: false, watchlist: false });
   };
 
   render() {

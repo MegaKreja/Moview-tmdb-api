@@ -15,6 +15,10 @@ class Search extends Component {
     this.searchMovie(e.target.value);
   };
 
+  onPageChange = () => {
+    this.setState({ searchTerm: '', searchResults: [] });
+  };
+
   searchMovie = movieName => {
     this.setState({ searchTerm: movieName }, () => {
       if (movieName.length > 0) {
@@ -45,7 +49,10 @@ class Search extends Component {
           />
         </div>
         {this.state.searchTerm.length > 0 && (
-          <SearchResults searchResults={this.state.searchResults} />
+          <SearchResults
+            changePage={this.onPageChange}
+            searchResults={this.state.searchResults}
+          />
         )}
       </Fragment>
     );

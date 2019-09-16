@@ -82,14 +82,14 @@ const MovieInfo = props => {
           </div>
           {Object.keys(props.user).length ? (
             <div className='cataloging'>
-              <div onClick={props.changeToFavorite} className='favorite'>
+              <div onClick={props.changeToFavorite}>
                 <FontAwesomeIcon
                   className={favorite ? 'heartColor' : 'heartNoColor'}
                   icon={faHeart}
                   size='2x'
                 />
               </div>
-              <div onClick={props.putToWatchlist} className='watchlist'>
+              <div onClick={props.putToWatchlist}>
                 <FontAwesomeIcon
                   className={watchlist ? 'bookmarkColor' : 'bookmarkNoColor'}
                   icon={faBookmark}

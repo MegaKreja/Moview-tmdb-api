@@ -1,8 +1,9 @@
+const mongoose = require('mongoose');
 const User = require('../models/user');
 const Favorite = require('../models/favorite');
 const Watchlist = require('../models/watchlist');
 
-exports.favorited = (req, res, next) => {
+exports.postFavorite = (req, res, next) => {
   const { movie, user, favorite } = req.body;
   Favorite.findOne({ tmdbId: movie.id }).then(foundedMovie => {
     console.log(foundedMovie);
@@ -12,13 +13,20 @@ exports.favorited = (req, res, next) => {
         title: movie.title,
         releaseDate: movie.release_date,
         posterPath: movie.poster_path,
-        favoritedUsers: [user._id]
+        favoritedUsers: [mongoose.Types.ObjectId(user._id)]
       });
+      console.log(
+        newFavorite.favoritedUsers[0],
+        typeof newFavorite.favoritedUsers[0]
+      );
       newFavorite
         .save()
         .then(favoriteMovie => {
           User.findById({ _id: user._id }).then(user => {
-            user.favoriteMovies = [favoriteMovie.tmdbId];
+            console.log(favoriteMovie._id, typeof favoriteMovie._id);
+            user.favoriteMovies.list.push(favoriteMovie._id.toString());
+            user.favoriteMovies.tmdbId.push(favoriteMovie.tmdbId);
+            console.log(user);
             user.save().then(user => {
               res.status(201).json({ message: 'Changed to favorite' });
             });
@@ -37,7 +45,6 @@ exports.favorited = (req, res, next) => {
         users.push(userId);
       } else {
         users = users.filter(userIndex => userIndex.toString() !== userId);
-        console.log(users);
       }
       foundedMovie.favoritedUsers = users;
       foundedMovie
@@ -45,12 +52,17 @@ exports.favorited = (req, res, next) => {
         .then(favoriteMovie => {
           User.findById({ _id: user._id }).then(user => {
             let favoriteMovies = user.favoriteMovies.slice();
-            const favoriteMovieId = favoriteMovie.tmdbId;
+            const favoriteMovieId = favoriteMovie._id;
+            const favoriteMovieTmdbId = favoriteMovie.tmdbId;
             if (favorite) {
-              favoriteMovies.push(favoriteMovieId);
+              favoriteMovies.list.push(favoriteMovieId.toString());
+              favoriteMovies.tmdbId.push(favoriteMovieTmdbId);
             } else {
-              favoriteMovies = favoriteMovies.filter(
-                movieIndex => movieIndex !== favoriteMovieId
+              favoriteMovies.list = favoriteMovies.filter(
+                movieIndex => movieIndex.toString() !== favoriteMovieTmdbId
+              );
+              favoriteMovies.tmdbId = favoriteMovies.filter(
+                movieIndex => movieIndex !== favoriteMovieTmdbId
               );
             }
             user.favoriteMovies = favoriteMovies;
@@ -72,7 +84,7 @@ exports.favorited = (req, res, next) => {
   });
 };
 
-exports.watchlist = (req, res, next) => {
+exports.postWatchlist = (req, res, next) => {
   const { movie, user, watchlist } = req.body;
   Watchlist.findOne({ tmdbId: movie.id }).then(foundedMovie => {
     if (!foundedMovie) {
@@ -87,7 +99,8 @@ exports.watchlist = (req, res, next) => {
         .save()
         .then(watchlistMovie => {
           User.findById({ _id: user._id }).then(user => {
-            user.watchlistMovies = [watchlistMovie.tmdbId];
+            user.watchlistMovies.list.push(watchlistMovie._id.toString());
+            user.watchlistMovies.tmdbId.push(watchlistMovie.tmdbId);
             user.save().then(user => {
               res.status(201).json({ message: 'Added to watchlist' });
             });
@@ -113,12 +126,17 @@ exports.watchlist = (req, res, next) => {
         .then(watchlistMovie => {
           User.findById({ _id: user._id }).then(user => {
             let watchlistMovies = user.watchlistMovies.slice();
-            const watchlistMovieId = watchlistMovie.tmdbId;
-            if (favorite) {
-              watchlistMovies.push(watchlistMovieId);
+            const watchlistMovieId = watchlistMovie._id;
+            const watchlistMovieTmdbId = watchlistMovie.tmdbId;
+            if (watchlist) {
+              watchlistMovies.list.push(watchlistMovieId.toString());
+              watchlistMovies.tmdbId.push(watchlistMovieTmdbId);
             } else {
-              watchlistMovies = watchlistMovies.filter(
-                movieIndex => movieIndex !== watchlistMovieId
+              watchlistMovies = watchlistMovies.list.filter(
+                movieIndex => movieIndex.toString() !== watchlistMovieTmdbId
+              );
+              watchlistMovies = watchlistMovies.tmdbId.filter(
+                movieIndex => movieIndex !== watchlistMovieTmdbId
               );
             }
             user.watchlistMovies = watchlistMovies;
@@ -138,4 +156,27 @@ exports.watchlist = (req, res, next) => {
         });
     }
   });
+};
+
+exports.favorite = (req, res, next) => {
+  const username = req.params.username;
+  // Favorite.findOne({})
+  //   .populate('favoritedUsers')
+  //   .exec((err, users) => {
+  //     console.log('Populated User ' + users);
+  //   });
+  User.findOne({ username: username })
+    .populate('favoriteMovies.list')
+    .exec((err, movies) => {
+      console.log('Favorite Movies ' + movies.favoriteMovies);
+    });
+};
+
+exports.watchlist = (req, res, next) => {
+  const username = req.params.username;
+  User.findOne({ username: username })
+    .populate('watchlistMovies.list')
+    .exec((err, movies) => {
+      console.log('Populated User ' + movies);
+    });
 };
