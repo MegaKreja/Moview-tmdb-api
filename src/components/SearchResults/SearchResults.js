@@ -10,9 +10,18 @@ const SearchResults = props => {
       <Link onClick={props.changePage} key={i} to={link}>
         <li>
           <img src={imageLink} alt='poster img' />
-          <h3>
-            {movie.title} ({movie.release_date.slice(0, 4)})
-          </h3>
+          <div className='searchMovieName'>
+            <div>
+              <h3>
+                {movie.title} (
+                {movie.release_date
+                  ? movie.release_date.slice(0, 4)
+                  : 'Unknown year'}
+                )
+              </h3>
+              <p>{movie.overview}</p>
+            </div>
+          </div>
         </li>
       </Link>
     );

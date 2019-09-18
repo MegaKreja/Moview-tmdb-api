@@ -30,7 +30,9 @@ class Search extends Component {
               movieName
           )
           .then(res => {
+            console.log(res.data.results.slice(0, 5));
             const searchResults = res.data.results.slice(0, 5);
+            console.log(searchResults);
             this.setState({ searchResults });
           });
       }

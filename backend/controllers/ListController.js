@@ -160,15 +160,10 @@ exports.postWatchlist = (req, res, next) => {
 
 exports.favorite = (req, res, next) => {
   const username = req.params.username;
-  // Favorite.findOne({})
-  //   .populate('favoritedUsers')
-  //   .exec((err, users) => {
-  //     console.log('Populated User ' + users);
-  //   });
   User.findOne({ username: username })
     .populate('favoriteMovies.list')
     .exec((err, movies) => {
-      console.log('Favorite Movies ' + movies.favoriteMovies);
+      res.status(201).json({ favoriteMovies: movies.favoriteMovies });
     });
 };
 
@@ -177,6 +172,6 @@ exports.watchlist = (req, res, next) => {
   User.findOne({ username: username })
     .populate('watchlistMovies.list')
     .exec((err, movies) => {
-      console.log('Populated User ' + movies);
+      res.status(201).json({ watchlistMovies: movies.watchlistMovies });
     });
 };

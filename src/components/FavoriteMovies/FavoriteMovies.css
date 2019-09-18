@@ -3,8 +3,37 @@
   margin: 0 auto;
 }
 
+.favoriteMovies h2 {
+  margin-top: 5%;
+  text-align: center;
+  color: #8e8d89;
+}
+
+.favoriteMovie {
+  display: inline;
+  margin: 0 auto;
+}
+
+.favoriteMovie img {
+  width: 20%;
+  margin: 2.5%;
+  transition: 0.5s;
+}
+
+.favoriteMovie img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-radius: 10%;
+  transition: 0.5s;
+}
+
 @media only screen and (max-width: 768px) {
   .favoriteMovies {
     width: 90%;
+  }
+
+  .favoriteMovie img {
+    width: 80%;
   }
 }

@@ -1,5 +1,4 @@
 .results ul {
-  width: 100%;
   text-decoration: none;
   list-style-type: none;
   padding: 0;
@@ -15,12 +14,17 @@
   display: inline-block;
   margin: 0;
   padding: 0;
-  display: table-cell;
-  vertical-align: middle;
+}
+
+.results .searchMovieName {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .results li {
-  display: table;
+  display: flex;
   background-color: #e0ded5;
   border: 2px solid #eeeeed;
   height: 25%;

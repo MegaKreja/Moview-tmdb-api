@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './FavoriteMovies.css';
 import Header from '../Header/Header';
 import Search from '../Search/Search';
 import Loader from '../Loader/Loader';
 import axios from 'axios';
-
-const key = '18195450fabc62a70a30dbc0d43118e1';
 
 class FavoriteMovies extends Component {
   state = {
@@ -22,17 +21,31 @@ class FavoriteMovies extends Component {
         `http://localhost:8000/lists/${this.props.match.params.username}/favorite`
       )
       .then(res => {
-        console.log(res.data);
+        const favoriteMovies = res.data.favoriteMovies.list.slice();
+        this.setState({ favoriteMovies });
       })
       .catch(err => console.log(err));
   };
 
   render() {
+    const username = this.props.match.params.username;
+    const movies = this.state.favoriteMovies.map((movie, i) => {
+      let imageLink = 'https://image.tmdb.org/t/p/w300' + movie.posterPath;
+      let link = '/movie/' + movie.tmdbId;
+      return (
+        <Link key={i} to={link}>
+          <div className='favoriteMovie'>
+            <img src={imageLink} alt='movie poster' />
+          </div>
+        </Link>
+      );
+    });
     return (
       <div className='favoriteMovies'>
         <Header />
         <Search />
-        {this.state.favoriteMovies ? <h1>Hello</h1> : <Loader />}
+        <h2>Favorite movies by {username}</h2>
+        {this.state.favoriteMovies.length !== 0 ? movies : <Loader />}
       </div>
     );
   }
