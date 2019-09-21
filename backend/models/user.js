@@ -46,7 +46,19 @@ const UserSchema = new Schema({
         required: true
       }
     ]
-  }
+  },
+  ratedMovies: [
+    {
+      tmdbId: {
+        type: Number,
+        required: true
+      },
+      rating: {
+        type: Number,
+        required: true
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model('User', UserSchema);

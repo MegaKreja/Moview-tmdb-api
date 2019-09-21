@@ -11,7 +11,7 @@ import MoviePlaceholder from '../../styles/images/moviePlaceholder.png';
 
 const MovieInfo = props => {
   console.log(props);
-  const { favorite, watchlist, rating } = props;
+  const { favorite, watchlist } = props;
   let posterImg = 'https://image.tmdb.org/t/p/w300' + props.movie.poster_path;
 
   const genres = props.movie.genres.map((genre, i) => {
@@ -102,7 +102,12 @@ const MovieInfo = props => {
           )}
           {Object.keys(props.user).length ? (
             <div className='moviewRating'>
-              <Rating icon='star' defaultRating={0} maxRating={10} />
+              <Rating
+                icon='star'
+                onRate={props.changeRating}
+                defaultRating={0}
+                maxRating={10}
+              />
             </div>
           ) : (
             ''

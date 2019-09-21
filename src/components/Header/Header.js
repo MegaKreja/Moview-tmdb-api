@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import './Header.css';
 import { Dropdown } from 'semantic-ui-react';
 import Icon from '../../styles/images/film-icon.png';
-import Loader from '../Loader/Loader';
 
 class Header extends Component {
   state = {

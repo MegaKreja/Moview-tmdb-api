@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Favorite = require('../models/favorite');
 const Watchlist = require('../models/watchlist');
+const Rating = require('../models/rating');
 
 exports.postFavorite = (req, res, next) => {
   const { movie, user, favorite } = req.body;
@@ -156,6 +157,21 @@ exports.postWatchlist = (req, res, next) => {
         });
     }
   });
+};
+
+exports.postRating = (req, res, next) => {
+  const { movie, user, rating } = req.body;
+  Rating.findOne({ tmdbId: movie.id })
+    .then(foundedMovie => {
+      if (!foundedMovie) {
+      }
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 };
 
 exports.favorite = (req, res, next) => {
