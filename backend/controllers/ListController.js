@@ -164,6 +164,62 @@ exports.postRating = (req, res, next) => {
   Rating.findOne({ tmdbId: movie.id })
     .then(foundedMovie => {
       if (!foundedMovie) {
+        const newRating = new Rating({
+          tmdbId: movie.id,
+          title: movie.title,
+          ratings: [
+            {
+              userId: user._id,
+              rating
+            }
+          ]
+        });
+        newRating
+          .save()
+          .then(ratedMovie => {
+            User.findOne({ _id: user._id }).then(user => {
+              user.ratedMovies = [
+                {
+                  tmdbId: ratedMovie.tmdbId,
+                  rating
+                }
+              ];
+              user.save().then(user => {
+                res.status(201).json({ message: `New rating is ${rating}` });
+              });
+            });
+          })
+          .catch(err => {
+            if (!err.statusCode) {
+              err.statusCode = 500;
+            }
+            next(err);
+          });
+      } else {
+        const userIndex = foundedMovie.ratings.findIndex(movie => {
+          return movie.userId === user._id;
+        });
+        if (userIndex < 0) {
+          foundedMovie.ratings.push({ userId: user._id, rating });
+        } else {
+          foundedMovie.ratings[userIndex].rating = rating;
+        }
+        foundedMovie.save().then(ratedMovie => {
+          User.findOne({ _id: user._id }).then(user => {
+            const movieIndex = user.ratedMovies.findIndex(
+              movie => ratedMovie.tmdbId === movie.tmdbId
+            );
+            console.log(movieIndex, rating);
+            if (movieIndex < 0) {
+              user.ratedMovies.push({ tmdbId: ratedMovie.tmdbId, rating });
+            } else {
+              user.ratedMovies[movieIndex].rating = rating;
+            }
+            user.save().then(user => {
+              res.status(201).json({ message: `New rating is ${rating}` });
+            });
+          });
+        });
       }
     })
     .catch(err => {

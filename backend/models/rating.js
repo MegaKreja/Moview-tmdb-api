@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const RatingSchema = new Schema({
   tmdbId: {
-    type: Number
+    type: Number,
+    required: true
   },
   title: {
     type: String,
@@ -12,10 +13,10 @@ const RatingSchema = new Schema({
   ratings: [
     {
       userId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true
       },
-      score: {
+      rating: {
         type: Number,
         required: true
       }

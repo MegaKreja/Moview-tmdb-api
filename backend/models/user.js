@@ -50,12 +50,10 @@ const UserSchema = new Schema({
   ratedMovies: [
     {
       tmdbId: {
-        type: Number,
-        required: true
+        type: Number
       },
       rating: {
-        type: Number,
-        required: true
+        type: Number
       }
     }
   ]
