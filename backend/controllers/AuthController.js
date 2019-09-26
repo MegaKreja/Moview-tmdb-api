@@ -127,7 +127,8 @@ exports.getUser = (req, res, next) => {
             email: user.email,
             image: user.image,
             favoriteMovies: user.favoriteMovies,
-            watchlistMovies: user.watchlistMovies
+            watchlistMovies: user.watchlistMovies,
+            ratedMovies: user.ratedMovies
           });
         })
         .catch(err => {

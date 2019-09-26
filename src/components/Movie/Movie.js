@@ -14,7 +14,8 @@ class Movie extends Component {
     user: {},
     favorite: false,
     watchlist: false,
-    rating: 0
+    rating: 0,
+    totalRating: 0
   };
 
   componentDidMount() {
@@ -56,11 +57,20 @@ class Movie extends Component {
           const inWatchlist = res.data.watchlistMovies.tmdbId.find(
             movie => movie === this.state.movie.id
           );
-          this.setState({
-            user: res.data,
-            favorite: isFavorite,
-            watchlist: inWatchlist
-          });
+          const isRated = res.data.ratedMovies.find(
+            movie => movie.tmdbId === this.state.movie.id
+          );
+          this.setState(
+            {
+              user: res.data,
+              favorite: isFavorite,
+              watchlist: inWatchlist,
+              rating: isRated.rating
+            },
+            () => {
+              this.getTotalRating();
+            }
+          );
           console.log(res.data);
         }
       })
@@ -81,6 +91,18 @@ class Movie extends Component {
         const movie = res.data;
         this.setState({ movie });
       });
+  };
+
+  getTotalRating = () => {
+    const tmdbId = this.state.movie.id;
+    console.log(tmdbId);
+    axios
+      .post('http://localhost:8000/lists/total-rating', { tmdbId })
+      .then(res => {
+        const { totalRating } = res.data;
+        this.setState({ totalRating });
+      })
+      .catch(err => console.log(err));
   };
 
   changeToFavorite = () => {
@@ -152,6 +174,8 @@ class Movie extends Component {
             user={this.state.user}
             favorite={this.state.favorite}
             watchlist={this.state.watchlist}
+            rating={this.state.rating}
+            totalRating={this.state.totalRating}
             changeToFavorite={this.changeToFavorite}
             putToWatchlist={this.putToWatchlist}
             changeRating={this.changeRating}

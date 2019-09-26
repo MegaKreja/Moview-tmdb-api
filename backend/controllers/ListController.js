@@ -247,3 +247,24 @@ exports.watchlist = (req, res, next) => {
       res.status(201).json({ watchlistMovies: movies.watchlistMovies });
     });
 };
+
+exports.totalRating = (req, res, next) => {
+  const tmdbId = req.body.tmdbId;
+  Rating.findOne({ tmdbId })
+    .then(ratedMovies => {
+      const sumRating = ratedMovies.ratings.reduce(
+        (acc, val) => acc + val.rating,
+        0
+      );
+      return sumRating / ratedMovies.ratings.length;
+    })
+    .then(totalRating => {
+      res.status(201).json({ totalRating });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};

@@ -26,6 +26,15 @@
   border-radius: 3%;
 }
 
+.left .imdbLink {
+  text-align: center;
+}
+
+.left .imdbIcon:hover {
+  color: #e0b41d;
+  transition: 0.2s;
+}
+
 .left .cataloging {
   text-align: center;
 }

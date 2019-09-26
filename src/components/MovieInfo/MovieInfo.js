@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faStar, faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faImdb } from '@fortawesome/free-brands-svg-icons';
 import { Rating } from 'semantic-ui-react';
 import './MovieInfo.css';
 import Placeholder from '../../styles/images/placeholder.png';
@@ -80,6 +79,15 @@ const MovieInfo = props => {
               alt='movie poster'
             />
           </div>
+          <div className='imdbLink'>
+            <a
+              href={`https://www.imdb.com/title/${props.movie.imdb_id}`}
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <FontAwesomeIcon className='imdbIcon' icon={faImdb} size='4x' />
+            </a>
+          </div>
           {Object.keys(props.user).length ? (
             <div className='cataloging'>
               <div onClick={props.changeToFavorite}>
@@ -105,7 +113,7 @@ const MovieInfo = props => {
               <Rating
                 icon='star'
                 onRate={props.changeRating}
-                defaultRating={0}
+                defaultRating={props.rating}
                 maxRating={10}
               />
             </div>
@@ -121,7 +129,8 @@ const MovieInfo = props => {
             </h4>
             <h4>
               MoView rating
-              <FontAwesomeIcon className='star' icon={faStar} /> 0/10
+              <FontAwesomeIcon className='star' icon={faStar} />{' '}
+              {props.totalRating}/10
             </h4>
           </div>
         </div>

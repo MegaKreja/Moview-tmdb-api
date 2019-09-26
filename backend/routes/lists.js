@@ -8,5 +8,6 @@ router.post('/watchlist', listController.postWatchlist);
 router.post('/rating', listController.postRating);
 router.get('/:username/favorite', listController.favorite);
 router.get('/:username/watchlist', listController.watchlist);
+router.post('/total-rating', listController.totalRating);
 
 module.exports = router;
