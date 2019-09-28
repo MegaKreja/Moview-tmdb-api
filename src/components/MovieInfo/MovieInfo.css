@@ -154,6 +154,21 @@ h4 {
   border: 0;
 }
 
+.reviewPost {
+  margin-top: 4%;
+  text-align: center;
+}
+
+.reviewPost textarea {
+  width: 90%;
+  font-size: 1.5rem;
+}
+
+.ui.orange.button.addReview {
+  display: block;
+  margin: 0 auto;
+}
+
 @media only screen and (max-width: 768px) {
   .movieInfo {
     border-radius: 0;
@@ -190,6 +205,7 @@ h4 {
   .similar img {
     width: 50%;
   }
+
   .trailer {
     position: relative;
     overflow: hidden;

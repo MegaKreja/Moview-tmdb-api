@@ -60,15 +60,17 @@ class Movie extends Component {
           const isRated = res.data.ratedMovies.find(
             movie => movie.tmdbId === this.state.movie.id
           );
+          console.log(isRated);
+          const rating = isRated ? isRated : 0;
           this.setState(
             {
               user: res.data,
               favorite: isFavorite,
               watchlist: inWatchlist,
-              rating: isRated.rating
+              rating: rating
             },
             () => {
-              this.getTotalRating();
+              this.getTotalRating(this.state.rating);
             }
           );
           console.log(res.data);
@@ -93,9 +95,11 @@ class Movie extends Component {
       });
   };
 
-  getTotalRating = () => {
+  getTotalRating = rating => {
     const tmdbId = this.state.movie.id;
-    console.log(tmdbId);
+    if (rating === 0) {
+      return;
+    }
     axios
       .post('http://localhost:8000/lists/total-rating', { tmdbId })
       .then(res => {

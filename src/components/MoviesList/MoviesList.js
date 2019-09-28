@@ -7,11 +7,11 @@ const MoviesList = props => {
     let imageLink = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
     let link = '/movie/' + movie.id;
     return (
-      <Link to={link} key={i}>
-        <div className='movie'>
+      <div className='movie' key={i}>
+        <Link to={link}>
           <img src={imageLink} alt='movie poster' />
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   });
 

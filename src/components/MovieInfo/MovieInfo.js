@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faImdb } from '@fortawesome/free-brands-svg-icons';
@@ -39,15 +40,15 @@ const MovieInfo = props => {
     let actorImg = 'https://image.tmdb.org/t/p/w300' + actor.profile_path;
     let link = '/actor/' + actor.id;
     return (
-      <Link to={link} key={i}>
-        <div className='actor'>
+      <div className='actor' key={i}>
+        <Link to={link}>
           <img
             src={actor.profile_path === null ? Placeholder : actorImg}
             alt='actor img'
           />
           <p>{actor.name}</p>
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   });
 
@@ -56,14 +57,14 @@ const MovieInfo = props => {
     let movieImg = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
     let link = '/movie/' + movie.id;
     return (
-      <Link to={link} key={i} onClick={props.pageChange}>
-        <div className='similarMovie'>
+      <div className='similarMovie' key={i}>
+        <Link to={link} onClick={props.pageChange}>
           <img
             src={movie.poster_path !== null ? movieImg : MoviePlaceholder}
             alt='movie img'
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   });
 
@@ -168,6 +169,23 @@ const MovieInfo = props => {
           />
         </div>
       )}
+
+      {Object.keys(props.user).length && (
+        <div className='reviewPost'>
+          <h1>Add Review</h1>
+          <textarea
+            name='review'
+            className='reviewInput'
+            placeholder={`Add your review for ${props.movie.title}...`}
+            rows='10'
+          ></textarea>
+          <Button className='addReview' color='orange'>
+            ADD
+          </Button>
+        </div>
+      )}
+
+      <div className='reviews'></div>
 
       <div className='similar'>
         <h1>Similar movies</h1>
