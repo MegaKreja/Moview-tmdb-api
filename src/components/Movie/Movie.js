@@ -15,7 +15,8 @@ class Movie extends Component {
     favorite: false,
     watchlist: false,
     rating: 0,
-    totalRating: 0
+    totalRating: 0,
+    review: ''
   };
 
   componentDidMount() {
@@ -166,6 +167,20 @@ class Movie extends Component {
     this.setState({ movie: {}, user: {}, favorite: false, watchlist: false });
   };
 
+  onChangeReview = review => {
+    this.setState({ review });
+  };
+
+  addReview = () => {
+    const { user, movie, review } = this.state;
+    axios
+      .post('http://localhost:8000/reviews/add', { user, movie, review })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     return (
       <div className='moviePage'>
@@ -183,6 +198,8 @@ class Movie extends Component {
             changeToFavorite={this.changeToFavorite}
             putToWatchlist={this.putToWatchlist}
             changeRating={this.changeRating}
+            changeReview={this.onChangeReview}
+            addReview={this.addReview}
           />
         ) : (
           <Loader />

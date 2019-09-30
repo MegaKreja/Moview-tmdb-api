@@ -176,10 +176,15 @@ const MovieInfo = props => {
           <textarea
             name='review'
             className='reviewInput'
+            onChange={e => props.changeReview(e.target.value)}
             placeholder={`Add your review for ${props.movie.title}...`}
             rows='10'
           ></textarea>
-          <Button className='addReview' color='orange'>
+          <Button
+            onClick={props.addReview}
+            className='addReview'
+            color='orange'
+          >
             ADD
           </Button>
         </div>
