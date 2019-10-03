@@ -58,7 +58,7 @@ const MovieInfo = props => {
     let link = '/movie/' + movie.id;
     return (
       <div className='similarMovie' key={i}>
-        <Link to={link} onClick={props.pageChange}>
+        <Link to={link} onClick={props.moviePageChange}>
           <img
             src={movie.poster_path !== null ? movieImg : MoviePlaceholder}
             alt='movie img'

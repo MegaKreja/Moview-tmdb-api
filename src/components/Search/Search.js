@@ -52,6 +52,7 @@ class Search extends Component {
         </div>
         {this.state.searchTerm.length > 0 && (
           <SearchResults
+            moviePageChange={this.props.moviePageChange}
             changePage={this.onPageChange}
             searchResults={this.state.searchResults}
           />

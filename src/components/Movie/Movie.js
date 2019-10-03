@@ -38,7 +38,15 @@ class Movie extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ movie: {}, user: {}, favorite: false, watchlist: false });
+    this.setState({
+      movie: {},
+      user: {},
+      favorite: false,
+      watchlist: false,
+      rating: 0,
+      totalRating: 0,
+      review: ''
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -61,8 +69,7 @@ class Movie extends Component {
           const isRated = res.data.ratedMovies.find(
             movie => movie.tmdbId === this.state.movie.id
           );
-          console.log(isRated);
-          const rating = isRated ? isRated : 0;
+          const rating = isRated ? isRated.rating : 0;
           this.setState(
             {
               user: res.data,
@@ -164,7 +171,15 @@ class Movie extends Component {
   };
 
   pageChange = () => {
-    this.setState({ movie: {}, user: {}, favorite: false, watchlist: false });
+    this.setState({
+      movie: {},
+      user: {},
+      favorite: false,
+      watchlist: false,
+      rating: 0,
+      totalRating: 0,
+      review: ''
+    });
   };
 
   onChangeReview = review => {
@@ -185,10 +200,10 @@ class Movie extends Component {
     return (
       <div className='moviePage'>
         <Header />
-        <Search />
+        <Search moviePageChange={this.pageChange} />
         {Object.keys(this.state.movie).length ? (
           <MovieInfo
-            pageChange={this.pageChange}
+            moviePageChange={this.pageChange}
             movie={this.state.movie}
             user={this.state.user}
             favorite={this.state.favorite}

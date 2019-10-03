@@ -7,7 +7,14 @@ const SearchResults = props => {
     let imageLink = 'https://image.tmdb.org/t/p/w300' + movie.poster_path;
     let link = '/movie/' + movie.id;
     return (
-      <Link onClick={props.changePage} key={i} to={link}>
+      <Link
+        onClick={event => {
+          props.changePage();
+          props.moviePageChange();
+        }}
+        key={i}
+        to={link}
+      >
         <li>
           <img src={imageLink} alt='poster img' />
           <div className='searchMovieName'>
