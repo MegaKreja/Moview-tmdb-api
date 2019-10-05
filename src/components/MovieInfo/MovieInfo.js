@@ -176,6 +176,7 @@ const MovieInfo = props => {
           <textarea
             name='review'
             className='reviewInput'
+            value={props.review}
             onChange={e => props.changeReview(e.target.value)}
             placeholder={`Add your review for ${props.movie.title}...`}
             rows='10'
