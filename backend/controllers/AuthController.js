@@ -19,7 +19,8 @@ exports.register = (req, res, next) => {
           image: '',
           favoriteMovies: { list: [], tmdbId: [] },
           watchlistMovies: { list: [], tmdbId: [] },
-          ratedMovies: []
+          ratedMovies: [],
+          reviews: []
         });
         return user.save();
       })
