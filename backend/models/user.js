@@ -56,6 +56,13 @@ const UserSchema = new Schema({
         type: Number
       }
     }
+  ],
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Review',
+      required: true
+    }
   ]
 });
 
