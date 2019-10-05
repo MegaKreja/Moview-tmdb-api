@@ -192,6 +192,7 @@ class Movie extends Component {
       .post('http://localhost:8000/reviews/add', { user, movie, review })
       .then(res => {
         console.log(res.data);
+        this.setState({ review: '' });
       })
       .catch(err => console.log(err));
   };
@@ -214,6 +215,7 @@ class Movie extends Component {
             putToWatchlist={this.putToWatchlist}
             changeRating={this.changeRating}
             changeReview={this.onChangeReview}
+            review={this.state.review}
             addReview={this.addReview}
           />
         ) : (
