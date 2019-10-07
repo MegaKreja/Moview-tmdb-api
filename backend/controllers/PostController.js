@@ -3,7 +3,7 @@ const User = require('../models/user');
 const Review = require('../models/review');
 
 exports.addReview = (req, res, next) => {
-  // console.log(req.body);
+  console.log(req.body.user);
   const { user, movie, review } = req.body;
   Review.findOne({ tmdbId: movie.id })
     .then(foundedReview => {
@@ -14,6 +14,7 @@ exports.addReview = (req, res, next) => {
             {
               userId: user._id,
               username: user.username,
+              image: user.image,
               text: review,
               likes: 0
             }
@@ -23,7 +24,7 @@ exports.addReview = (req, res, next) => {
           User.findOne({ username: user.username }).then(user => {
             user.reviews.push(result._id);
             user.save().then(user => {
-              res.status(201).json({ message: 'Added post' });
+              res.status(201).json({ message: 'Added post', review: result });
             });
           });
         });
@@ -31,6 +32,7 @@ exports.addReview = (req, res, next) => {
         foundedReview.reviews.push({
           userId: user._id,
           username: user.username,
+          image: user.image,
           text: review,
           likes: 0
         });
@@ -42,6 +44,24 @@ exports.addReview = (req, res, next) => {
             });
           });
         });
+      }
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.getReviews = (req, res, next) => {
+  const tmdbId = Number(req.params.id);
+  Review.findOne({ tmdbId })
+    .then(review => {
+      if (!review) {
+        res.status(200).json({ reviews: [] });
+      } else {
+        res.status(200).json({ reviews: review.reviews });
       }
     })
     .catch(err => {
