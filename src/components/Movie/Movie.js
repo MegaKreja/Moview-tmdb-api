@@ -16,11 +16,13 @@ class Movie extends Component {
     watchlist: false,
     rating: 0,
     totalRating: 0,
-    review: ''
+    review: '',
+    reviews: []
   };
 
   componentDidMount() {
     this.getMovie();
+    this.getReviews();
     const jwt = localStorage.getItem('token');
     if (jwt) {
       this.isUserLoggedIn(jwt);
@@ -178,7 +180,8 @@ class Movie extends Component {
       watchlist: false,
       rating: 0,
       totalRating: 0,
-      review: ''
+      review: '',
+      reviews: []
     });
   };
 
@@ -187,14 +190,29 @@ class Movie extends Component {
   };
 
   addReview = () => {
-    const { user, movie, review } = this.state;
+    const { user, movie, review, reviews } = this.state;
     axios
       .post('http://localhost:8000/reviews/add', { user, movie, review })
       .then(res => {
+        const { review } = res.data;
         console.log(res.data);
-        this.setState({ review: '' });
+        reviews.push(review);
+        this.setState({ review: '', reviews });
       })
       .catch(err => console.log(err));
+  };
+
+  getReviews = () => {
+    const tmdbId = this.props.match.params.id;
+    axios
+      .get('http://localhost:8000/reviews/' + tmdbId)
+      .then(res => {
+        const { reviews } = res.data;
+        this.setState({ reviews });
+      })
+      .catch(() => {
+        this.setState({ reviews: [] });
+      });
   };
 
   render() {
