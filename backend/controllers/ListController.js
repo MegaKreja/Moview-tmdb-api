@@ -16,10 +16,10 @@ exports.postFavorite = (req, res, next) => {
         posterPath: movie.poster_path,
         favoritedUsers: [mongoose.Types.ObjectId(user._id)]
       });
-      console.log(
-        newFavorite.favoritedUsers[0],
-        typeof newFavorite.favoritedUsers[0]
-      );
+      // console.log(
+      //   newFavorite.favoritedUsers[0],
+      //   typeof newFavorite.favoritedUsers[0]
+      // );
       newFavorite
         .save()
         .then(favoriteMovie => {
@@ -52,17 +52,17 @@ exports.postFavorite = (req, res, next) => {
         .save()
         .then(favoriteMovie => {
           User.findById({ _id: user._id }).then(user => {
-            let favoriteMovies = user.favoriteMovies.slice();
+            let { favoriteMovies } = user;
             const favoriteMovieId = favoriteMovie._id;
             const favoriteMovieTmdbId = favoriteMovie.tmdbId;
             if (favorite) {
               favoriteMovies.list.push(favoriteMovieId.toString());
               favoriteMovies.tmdbId.push(favoriteMovieTmdbId);
             } else {
-              favoriteMovies.list = favoriteMovies.filter(
+              favoriteMovies.list = favoriteMovies.list.filter(
                 movieIndex => movieIndex.toString() !== favoriteMovieTmdbId
               );
-              favoriteMovies.tmdbId = favoriteMovies.filter(
+              favoriteMovies.tmdbId = favoriteMovies.tmdbId.filter(
                 movieIndex => movieIndex !== favoriteMovieTmdbId
               );
             }
@@ -126,17 +126,17 @@ exports.postWatchlist = (req, res, next) => {
         .save()
         .then(watchlistMovie => {
           User.findById({ _id: user._id }).then(user => {
-            let watchlistMovies = user.watchlistMovies.slice();
+            let { watchlistMovies } = user;
             const watchlistMovieId = watchlistMovie._id;
             const watchlistMovieTmdbId = watchlistMovie.tmdbId;
             if (watchlist) {
               watchlistMovies.list.push(watchlistMovieId.toString());
               watchlistMovies.tmdbId.push(watchlistMovieTmdbId);
             } else {
-              watchlistMovies = watchlistMovies.list.filter(
+              watchlistMovies.list = watchlistMovies.list.filter(
                 movieIndex => movieIndex.toString() !== watchlistMovieTmdbId
               );
-              watchlistMovies = watchlistMovies.tmdbId.filter(
+              watchlistMovies.tmdbId = watchlistMovies.tmdbId.filter(
                 movieIndex => movieIndex !== watchlistMovieTmdbId
               );
             }
