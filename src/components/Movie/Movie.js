@@ -22,7 +22,6 @@ class Movie extends Component {
 
   componentDidMount() {
     this.getMovie();
-    this.getReviews();
     const jwt = localStorage.getItem('token');
     if (jwt) {
       this.isUserLoggedIn(jwt);
@@ -47,7 +46,8 @@ class Movie extends Component {
       watchlist: false,
       rating: 0,
       totalRating: 0,
-      review: ''
+      review: '',
+      reviews: []
     });
   }
 
@@ -102,6 +102,7 @@ class Movie extends Component {
       .then(res => {
         const movie = res.data;
         this.setState({ movie });
+        this.getReviews();
       });
   };
 
@@ -203,10 +204,13 @@ class Movie extends Component {
   };
 
   getReviews = () => {
-    const tmdbId = this.props.match.params.id;
+    console.log('jesi tu');
+    const tmdbId = this.state.movie.id;
+    console.log(tmdbId);
     axios
       .get('http://localhost:8000/reviews/' + tmdbId)
       .then(res => {
+        console.log(res.data);
         const { reviews } = res.data;
         this.setState({ reviews });
       })
@@ -235,6 +239,7 @@ class Movie extends Component {
             changeReview={this.onChangeReview}
             review={this.state.review}
             addReview={this.addReview}
+            reviews={this.state.reviews}
           />
         ) : (
           <Loader />
