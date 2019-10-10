@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button, Comment } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faImdb } from '@fortawesome/free-brands-svg-icons';
@@ -65,6 +65,31 @@ const MovieInfo = props => {
           />
         </Link>
       </div>
+    );
+  });
+
+  const reviews = props.reviews.map((review, i) => {
+    const { image, username, time, text, likes } = review;
+    const imageLink = process.env.PUBLIC_URL + '/' + image;
+    return (
+      <Comment key={i}>
+        <Comment.Avatar src={imageLink} />
+        <Comment.Content>
+          <Comment.Author>{username}</Comment.Author>
+          <Comment.Metadata>
+            <div>{time}</div>
+            <div>
+              <FontAwesomeIcon
+                className='heartColor'
+                icon={faHeart}
+                size='1x'
+              />
+              {likes} likes
+            </div>
+          </Comment.Metadata>
+          <Comment.Text>{text}</Comment.Text>
+        </Comment.Content>
+      </Comment>
     );
   });
 
@@ -191,7 +216,9 @@ const MovieInfo = props => {
         </div>
       )}
 
-      <div className='reviews'></div>
+      <div className='reviews'>
+        <Comment.Group>{reviews}</Comment.Group>
+      </div>
 
       <div className='similar'>
         <h1>Similar movies</h1>
