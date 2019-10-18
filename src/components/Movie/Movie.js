@@ -17,7 +17,12 @@ class Movie extends Component {
     rating: 0,
     totalRating: 0,
     review: '',
-    reviews: []
+    reviews: [],
+    editing: {
+      reviewIndex: null,
+      openEdit: false
+    },
+    editedReview: ''
   };
 
   componentDidMount() {
@@ -47,7 +52,9 @@ class Movie extends Component {
       rating: 0,
       totalRating: 0,
       review: '',
-      reviews: []
+      reviews: [],
+      editing: {},
+      editedReview: ''
     });
   }
 
@@ -182,12 +189,18 @@ class Movie extends Component {
       rating: 0,
       totalRating: 0,
       review: '',
-      reviews: []
+      reviews: [],
+      editing: {},
+      editedReview: ''
     });
   };
 
   onChangeReview = review => {
     this.setState({ review });
+  };
+
+  onChangeEdit = editedReview => {
+    this.setState({ editedReview });
   };
 
   addReview = () => {
@@ -204,9 +217,7 @@ class Movie extends Component {
   };
 
   getReviews = () => {
-    console.log('jesi tu');
     const tmdbId = this.state.movie.id;
-    console.log(tmdbId);
     axios
       .get('http://localhost:8000/reviews/' + tmdbId)
       .then(res => {
@@ -217,6 +228,41 @@ class Movie extends Component {
       .catch(() => {
         this.setState({ reviews: [] });
       });
+  };
+
+  openEditForm = (reviewIndex, editedReview) => {
+    this.setState(prevState => {
+      const openEdit =
+        prevState.editing.reviewIndex === reviewIndex
+          ? !prevState.editing.openEdit
+          : true;
+      return {
+        editing: {
+          ...prevState.editing,
+          reviewIndex,
+          openEdit
+        },
+        editedReview
+      };
+    });
+  };
+
+  editReview = () => {
+    const { review } = this.state;
+    this.setState({
+      review,
+      editing: {
+        reviewIndex: null,
+        openEdit: false
+      }
+    });
+    axios
+      .post('http://localhost:8000/reviews/edit', { review })
+      .then(res => {
+        console.log(res.data);
+        // this.setState({ review });
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -240,6 +286,11 @@ class Movie extends Component {
             review={this.state.review}
             addReview={this.addReview}
             reviews={this.state.reviews}
+            editing={this.state.editing}
+            editedReview={this.state.editedReview}
+            openEditForm={this.openEditForm}
+            changeEdit={this.onChangeEdit}
+            editReview={this.editReview}
           />
         ) : (
           <Loader />
