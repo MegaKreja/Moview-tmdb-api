@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Comment } from 'semantic-ui-react';
+import { Button, Comment, Form } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { faImdb } from '@fortawesome/free-brands-svg-icons';
@@ -69,7 +69,7 @@ const MovieInfo = props => {
   });
 
   const reviews = props.reviews.map((review, i) => {
-    const { image, username, time, text, likes } = review;
+    const { username, time, text, likes, image, userId } = review;
     const imageLink = process.env.PUBLIC_URL + '/' + image;
     return (
       <Comment key={i}>
@@ -88,6 +88,28 @@ const MovieInfo = props => {
             </div>
           </Comment.Metadata>
           <Comment.Text>{text}</Comment.Text>
+          <Comment.Actions>
+            {props.user._id === userId && (
+              <Comment.Action onClick={() => props.openEditForm(i, text)}>
+                Edit
+              </Comment.Action>
+            )}
+          </Comment.Actions>
+          {props.editing.reviewIndex === i && props.editing.openEdit ? (
+            <Form>
+              <Form.TextArea
+                value={props.editedReview}
+                onChange={e => props.changeEdit(e.target.value)}
+              />
+              <Button
+                onClick={props.editReview}
+                content='Edit Review'
+                primary
+              />
+            </Form>
+          ) : (
+            ''
+          )}
         </Comment.Content>
       </Comment>
     );
@@ -204,14 +226,14 @@ const MovieInfo = props => {
             value={props.review}
             onChange={e => props.changeReview(e.target.value)}
             placeholder={`Add your review for ${props.movie.title}...`}
-            rows='10'
+            rows='5'
           ></textarea>
           <Button
             onClick={props.addReview}
             className='addReview'
             color='orange'
           >
-            ADD
+            Add Review
           </Button>
         </div>
       )}
