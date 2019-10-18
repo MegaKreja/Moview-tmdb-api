@@ -29,18 +29,23 @@ exports.addReview = (req, res, next) => {
           });
         });
       } else {
-        foundedReview.reviews.push({
+        const reviewPost = {
           userId: user._id,
           username: user.username,
           image: user.image,
           text: review,
+          time: Date.now(),
           likes: 0
-        });
+        };
+        foundedReview.reviews.push(reviewPost);
         foundedReview.save().then(result => {
           User.findOne({ username: user.username }).then(user => {
             user.reviews.push(result._id);
             user.save().then(user => {
-              res.status(201).json({ message: 'Added post' });
+              console.log(result);
+              res
+                .status(201)
+                .json({ message: 'Added post', review: reviewPost });
             });
           });
         });
@@ -70,4 +75,8 @@ exports.getReviews = (req, res, next) => {
       }
       next(err);
     });
+};
+
+exports.editReview = (req, res, next) => {
+  console.log(req);
 };
