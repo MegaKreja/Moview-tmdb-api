@@ -248,19 +248,24 @@ class Movie extends Component {
   };
 
   editReview = () => {
-    const { review } = this.state;
-    this.setState({
-      review,
-      editing: {
-        reviewIndex: null,
-        openEdit: false
-      }
-    });
+    const { editedReview, movie, editing, reviews } = this.state;
+
     axios
-      .post('http://localhost:8000/reviews/edit', { review })
+      .post('http://localhost:8000/reviews/edit', {
+        editedReview,
+        tmdbId: movie.id,
+        index: editing.reviewIndex
+      })
       .then(res => {
-        console.log(res.data);
-        // this.setState({ review });
+        reviews[editing.reviewIndex].text = editedReview;
+        this.setState({
+          reviews,
+          editedReview,
+          editing: {
+            reviewIndex: null,
+            openEdit: false
+          }
+        });
       })
       .catch(err => console.log(err));
   };
