@@ -24,7 +24,9 @@ exports.addReview = (req, res, next) => {
           User.findOne({ username: user.username }).then(user => {
             user.reviews.push(result._id);
             user.save().then(user => {
-              res.status(201).json({ message: 'Added post', review: result });
+              res
+                .status(201)
+                .json({ message: 'Added post', review: result.reviews[0] });
             });
           });
         });

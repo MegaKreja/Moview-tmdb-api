@@ -209,8 +209,8 @@ class Movie extends Component {
       .post('http://localhost:8000/reviews/add', { user, movie, review })
       .then(res => {
         const { review } = res.data;
-        console.log(res.data);
         reviews.push(review);
+        console.log(reviews);
         this.setState({ review: '', reviews });
       })
       .catch(err => console.log(err));

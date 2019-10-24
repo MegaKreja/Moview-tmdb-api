@@ -70,6 +70,18 @@ const MovieInfo = props => {
 
   const reviews = props.reviews.map((review, i) => {
     const { username, time, text, likes, image, userId } = review;
+    const timeNowDay = new Date(Date.now()).getTime();
+    const timeReviewDay = new Date(time).getTime();
+    const diffDays = Number((timeNowDay - timeReviewDay) / (24 * 3600 * 1000));
+    let timeStamp = null;
+    if (diffDays < 1) {
+      timeStamp = `Today at ${new Date(time).getHours()}:${new Date(
+        time
+      ).getMinutes()}`;
+    } else {
+      timeStamp = `${Math.round(diffDays)} days ago`;
+    }
+
     const imageLink = process.env.PUBLIC_URL + '/' + image;
     return (
       <Comment key={i}>
@@ -77,7 +89,7 @@ const MovieInfo = props => {
         <Comment.Content>
           <Comment.Author>{username}</Comment.Author>
           <Comment.Metadata>
-            <div>{time}</div>
+            <div>{timeStamp}</div>
             <div>
               <FontAwesomeIcon
                 className='heartColor'
