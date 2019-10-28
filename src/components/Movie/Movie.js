@@ -34,6 +34,19 @@ class Movie extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('will receive props');
+    this.setState({
+      movie: {},
+      // user: {},
+      favorite: false,
+      watchlist: false,
+      rating: 0,
+      totalRating: 0,
+      review: '',
+      reviews: [],
+      editing: {},
+      editedReview: ''
+    });
     if (nextProps.movie !== this.state.movie) {
       this.getMovie();
       const jwt = localStorage.getItem('token');
@@ -46,7 +59,7 @@ class Movie extends Component {
   componentWillUnmount() {
     this.setState({
       movie: {},
-      user: {},
+      // user: {},
       favorite: false,
       watchlist: false,
       rating: 0,
@@ -180,21 +193,6 @@ class Movie extends Component {
       .catch(err => console.log(err));
   };
 
-  pageChange = () => {
-    this.setState({
-      movie: {},
-      user: {},
-      favorite: false,
-      watchlist: false,
-      rating: 0,
-      totalRating: 0,
-      review: '',
-      reviews: [],
-      editing: {},
-      editedReview: ''
-    });
-  };
-
   onChangeReview = review => {
     this.setState({ review });
   };
@@ -274,10 +272,9 @@ class Movie extends Component {
     return (
       <div className='moviePage'>
         <Header />
-        <Search moviePageChange={this.pageChange} />
+        <Search />
         {Object.keys(this.state.movie).length ? (
           <MovieInfo
-            moviePageChange={this.pageChange}
             movie={this.state.movie}
             user={this.state.user}
             favorite={this.state.favorite}
