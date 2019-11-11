@@ -56,11 +56,11 @@ exports.postFavorite = (req, res, next) => {
             const favoriteMovieId = favoriteMovie._id;
             const favoriteMovieTmdbId = favoriteMovie.tmdbId;
             if (favorite) {
-              favoriteMovies.list.push(favoriteMovieId.toString());
+              favoriteMovies.list.push(favoriteMovieId);
               favoriteMovies.tmdbId.push(favoriteMovieTmdbId);
             } else {
               favoriteMovies.list = favoriteMovies.list.filter(
-                movieIndex => movieIndex.toString() !== favoriteMovieTmdbId
+                movieIndex => !favoriteMovieId.equals(movieIndex)
               );
               favoriteMovies.tmdbId = favoriteMovies.tmdbId.filter(
                 movieIndex => movieIndex !== favoriteMovieTmdbId
@@ -100,7 +100,7 @@ exports.postWatchlist = (req, res, next) => {
         .save()
         .then(watchlistMovie => {
           User.findById({ _id: user._id }).then(user => {
-            user.watchlistMovies.list.push(watchlistMovie._id.toString());
+            user.watchlistMovies.list.push(watchlistMovie._id);
             user.watchlistMovies.tmdbId.push(watchlistMovie.tmdbId);
             user.save().then(user => {
               res.status(201).json({ message: 'Added to watchlist' });
@@ -130,11 +130,11 @@ exports.postWatchlist = (req, res, next) => {
             const watchlistMovieId = watchlistMovie._id;
             const watchlistMovieTmdbId = watchlistMovie.tmdbId;
             if (watchlist) {
-              watchlistMovies.list.push(watchlistMovieId.toString());
+              watchlistMovies.list.push(watchlistMovieId);
               watchlistMovies.tmdbId.push(watchlistMovieTmdbId);
             } else {
               watchlistMovies.list = watchlistMovies.list.filter(
-                movieIndex => movieIndex.toString() !== watchlistMovieTmdbId
+                movieIndex => !watchlistMovieId.equals(movieIndex)
               );
               watchlistMovies.tmdbId = watchlistMovies.tmdbId.filter(
                 movieIndex => movieIndex !== watchlistMovieTmdbId
