@@ -16,7 +16,8 @@ exports.addReview = (req, res, next) => {
               username: user.username,
               image: user.image,
               text: review,
-              likes: 0
+              time: Date.now(),
+              likes: []
             }
           ]
         });
@@ -37,7 +38,7 @@ exports.addReview = (req, res, next) => {
           image: user.image,
           text: review,
           time: Date.now(),
-          likes: 0
+          likes: []
         };
         foundedReview.reviews.push(reviewPost);
         foundedReview.save().then(result => {
@@ -80,15 +81,46 @@ exports.getReviews = (req, res, next) => {
 };
 
 exports.editReview = (req, res, next) => {
-  console.log(req.body);
   const { editedReview, tmdbId, index } = req.body;
-  Review.findOne({ tmdbId: Number(tmdbId) })
+  Review.findOne({ tmdbId })
     .then(movie => {
-      console.log(movie);
       movie.reviews[index].text = editedReview;
       movie.save().then(savedReview => {
         res.status(200).json({ message: 'Updated successfully' });
       });
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
+
+exports.likeReview = (req, res, next) => {
+  const { username, tmdbId, index } = req.body;
+  Review.findOne({ tmdbId })
+    .then(movie => {
+      let { likes } = movie.reviews[index];
+      if (movie.reviews[index].likes.includes(username)) {
+        likes = likes.filter(like => {
+          return like !== username;
+        });
+        movie.reviews[index].likes = likes;
+        movie.save().then(savedReview => {
+          res
+            .status(200)
+            .json({ message: 'Review liked', reviews: savedReview });
+        });
+      } else {
+        likes.push(username);
+        movie.reviews[index].likes = likes;
+        movie.save().then(savedReview => {
+          res
+            .status(200)
+            .json({ message: 'Review unliked', reviews: savedReview });
+        });
+      }
     })
     .catch(err => {
       if (!err.statusCode) {

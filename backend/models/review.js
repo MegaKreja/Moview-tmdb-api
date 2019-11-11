@@ -23,10 +23,7 @@ const ReviewSchema = new Schema({
         type: String,
         required: true
       },
-      likes: {
-        type: Number,
-        required: true
-      },
+      likes: [],
       time: {
         type: Date,
         default: Date.now
