@@ -22,7 +22,8 @@ class Movie extends Component {
       reviewIndex: null,
       openEdit: false
     },
-    editedReview: ''
+    editedReview: '',
+    likedReviews: []
   };
 
   componentDidMount() {
@@ -268,6 +269,24 @@ class Movie extends Component {
       .catch(err => console.log(err));
   };
 
+  likeReview = index => {
+    let { movie, reviews } = this.state;
+    axios
+      .post('http://localhost:8000/reviews/like', {
+        username: this.state.user.username,
+        tmdbId: movie.id,
+        index
+      })
+      .then(res => {
+        console.log(reviews);
+        console.log(res.data.reviews);
+        reviews[index] = res.data.reviews.reviews[index];
+        console.log(reviews);
+        this.setState({ reviews });
+      })
+      .catch(err => console.log(err));
+  };
+
   render() {
     return (
       <div className='moviePage'>
@@ -293,6 +312,7 @@ class Movie extends Component {
             openEditForm={this.openEditForm}
             changeEdit={this.onChangeEdit}
             editReview={this.editReview}
+            likeReview={this.likeReview}
           />
         ) : (
           <Loader />

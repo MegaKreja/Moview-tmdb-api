@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Comment, Form } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -96,15 +96,20 @@ const MovieInfo = props => {
                 icon={faHeart}
                 size='1x'
               />
-              {likes} likes
+              {likes.length} likes
             </div>
           </Comment.Metadata>
           <Comment.Text>{text}</Comment.Text>
           <Comment.Actions>
             {props.user._id === userId && (
-              <Comment.Action onClick={() => props.openEditForm(i, text)}>
-                Edit
-              </Comment.Action>
+              <Fragment>
+                <Comment.Action onClick={() => props.openEditForm(i, text)}>
+                  Edit
+                </Comment.Action>
+                <Comment.Action onClick={() => props.likeReview(i)}>
+                  {likes.includes(props.user.username) ? 'Liked' : 'Like'}
+                </Comment.Action>
+              </Fragment>
             )}
           </Comment.Actions>
           {props.editing.reviewIndex === i && props.editing.openEdit ? (
