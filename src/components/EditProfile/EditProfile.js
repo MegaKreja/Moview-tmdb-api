@@ -26,6 +26,8 @@ class EditProfile extends Component {
         if (!res.data.expired) {
           const { username, email, image } = res.data;
           this.setState({ username, email, image });
+        } else {
+          this.props.history.push('/');
         }
       })
       .catch(err => this.props.history.push('/'));
